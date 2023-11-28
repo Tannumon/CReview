@@ -44,7 +44,7 @@ public class DatabaseDriver {
                 (
                     ID         INTEGER  primary key,
                     Username   TEXT     not null unique,
-                    Passwords  TEXT     not null,
+                    Password   TEXT     not null,
                 );
                 """;
 
@@ -66,6 +66,8 @@ public class DatabaseDriver {
                     Rating                                           INTEGER   not null,
                     Timestamp                                        TEXT      not null,
                     Comment                                          TEXT      not null,
+                    UserID                                           INTEGER   not null,
+                    CourseID                                         INTEGER   not null,
                     FOREIGN KEY (UserID) references Users(ID)        on delete cascade,
                     FOREIGN KEY (CourseID) references Courses(ID)    on delete cascade
                 );
@@ -81,6 +83,25 @@ public class DatabaseDriver {
             preparedStatement.close();
         }
 
+    }
+
+    public void addUser(User user) throws SQLException {
+        try{
+            String insert = """
+                    insert into Users (Username, Passwords)
+                        values 
+                """;
+            String username = user.getUsername();
+            String password = user.getPassword();
+            insert += "(\"" + username + "\", \"" + password + "\", );";
+            PreparedStatement preparedStatement = connection.prepareStatement(insert);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        }
+        catch (SQLException e){
+            rollback(); //rolls back any changes before the Exception was thrown
+            throw e;
+        }
     }
 
     public void clearTables() throws SQLException {
