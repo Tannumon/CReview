@@ -66,7 +66,7 @@ public class DatabaseDriver {
                     Rating                                           INTEGER   not null,
                     Timestamp                                        TEXT      not null,
                     Comment                                          TEXT      not null,
-                    UserID                                           INTEGER   not null,
+                    UserID                                           TEXT      not null,
                     CourseID                                         INTEGER   not null,
                     FOREIGN KEY (UserID) references Users(ID)        on delete cascade,
                     FOREIGN KEY (CourseID) references Courses(ID)    on delete cascade
@@ -99,7 +99,112 @@ public class DatabaseDriver {
             preparedStatement.close();
         }
         catch (SQLException e){
-            rollback(); //rolls back any changes before the Exception was thrown
+            rollback();
+            throw e;
+        }
+    }
+
+    //TODO: IMPLEMENT
+    public void addReview(Review review) throws SQLException {
+        try{
+            String insert = "";
+            insert += "(\"" + "aaaaaa" + "\", \"" + "bbbbbbb" + "\", );";
+            PreparedStatement preparedStatement = connection.prepareStatement(insert);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        }
+        catch (SQLException e){
+            rollback();
+            throw e;
+        }
+    }
+
+    //TODO: IMPLEMENT
+    public void addCourse(Course course) throws SQLException {
+        try{
+            String insert = "";
+            insert += "(\"" + "aaaaaa" + "\", \"" + "bbbbbbb" + "\", );";
+            PreparedStatement preparedStatement = connection.prepareStatement(insert);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        }
+        catch (SQLException e){
+            rollback();
+            throw e;
+        }
+    }
+
+    //TODO: IMPLEMENT
+    public ArrayList<Review> getUserReviews(String username) throws SQLException {
+        try{
+            String insert = "";
+            PreparedStatement preparedStatement = connection.prepareStatement(insert);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+            return new ArrayList<Review>();
+        }
+        catch (SQLException e){
+            rollback();
+            throw e;
+        }
+    }
+
+    //TODO: IMPLEMENT
+    public ArrayList<Review> getCourseReviews(Course course) throws SQLException {
+        try{
+            String insert = "";
+            PreparedStatement preparedStatement = connection.prepareStatement(insert);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+            return new ArrayList<Review>();
+        }
+        catch (SQLException e){
+            rollback();
+            throw e;
+        }
+    }
+
+    //TODO: IMPLEMENT
+    public ArrayList<Course> getCourseBySubject(String subject) throws SQLException {
+        try{
+            String insert = "";
+            PreparedStatement preparedStatement = connection.prepareStatement(insert);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+            return new ArrayList<Course>();
+        }
+        catch (SQLException e){
+            rollback();
+            throw e;
+        }
+    }
+
+    //TODO: IMPLEMENT
+    public ArrayList<Course> getCourseByNumber(int number) throws SQLException {
+        try{
+            String insert = "";
+            PreparedStatement preparedStatement = connection.prepareStatement(insert);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+            return new ArrayList<Course>();
+        }
+        catch (SQLException e){
+            rollback();
+            throw e;
+        }
+    }
+
+    //TODO: IMPLEMENT
+    public ArrayList<Course> getCourseByTitle(String title) throws SQLException {
+        try{
+            String insert = "";
+            PreparedStatement preparedStatement = connection.prepareStatement(insert);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+            return new ArrayList<Course>();
+        }
+        catch (SQLException e){
+            rollback();
             throw e;
         }
     }
