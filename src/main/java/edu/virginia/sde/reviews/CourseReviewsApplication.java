@@ -24,5 +24,10 @@ public class CourseReviewsApplication extends Application {
         stage.setTitle("Login Scene");
         stage.setScene(scene);
         stage.show();
+        DatabaseDriver driver = new DatabaseDriver("course_review_system.sqlite3");
+        driver.connect();
+        driver.createTables();
+        driver.commit();
+        driver.disconnect();
     }
 }

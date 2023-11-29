@@ -36,8 +36,9 @@
                 <HBox layoutX = "0" layoutY ="0" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
                     <Button fx:id="loginButton" onAction="#login"> Login </Button>
                     <HBox layoutX = "5" layoutY ="0" prefHeight = "100.0" prefWidth = "50"> </HBox>
-                    <Button> Create User </Button>
+                    <Button fx:id="createUserButton" onAction="#create"> Create User </Button>
                 </HBox>
+                <Label text= "" fx:id="errorMessages"/>
             </children>
         </VBox>
 

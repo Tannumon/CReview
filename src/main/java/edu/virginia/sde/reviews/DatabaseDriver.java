@@ -118,6 +118,20 @@ public class DatabaseDriver {
         }
     }
 
+    public String getUserPassword(String username) throws SQLException {
+        try{
+            String getUserID = "select * from Users where Username LIKE '"+username+"'";
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(getUserID);
+            String password = rs.getString("Password");
+            return password;
+        }
+        catch (SQLException e){
+            rollback();
+            throw e;
+        }
+    }
+
     public int getCourseID(Course course) throws SQLException {
         try{
             String getUserID = "select * from Courses where SubjectMnemonic LIKE '"+course.getSubjectMnemonic()+"' " +
