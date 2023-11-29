@@ -1,4 +1,3 @@
 package edu.virginia.sde.reviews;
-
-public class CourseSearchSceneController {
+public class CourseSearchSceneController{
 }
