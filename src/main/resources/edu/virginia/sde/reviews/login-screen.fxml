@@ -30,7 +30,7 @@
                 <HBox layoutX = "0" layoutY ="0" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
                     <Label text = "Password" />
                     <HBox  layoutX = "5" layoutY ="0" prefHeight = "100.0" prefWidth = "14"> </HBox>
-                    <TextField />
+                    <PasswordField/>
                 </HBox>
 
                 <HBox layoutX = "0" layoutY ="0" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
