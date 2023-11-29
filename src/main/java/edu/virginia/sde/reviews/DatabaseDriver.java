@@ -136,24 +136,6 @@ public class DatabaseDriver {
         }
     }
 
-    public double getCourseRating(Course course) throws SQLException {
-        try{
-            String getUserID = "select * from Courses where SubjectMnemonic LIKE '"+course.getSubjectMnemonic()+"' " +
-                    "AND CourseTitle LIKE '"+course.getSubjectMnemonic()+"' " +
-                    "AND CourseNumber = " + course.getCourseNumber() + ";";
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery(getUserID);
-            if(rs.next() == false)
-                return -1;
-            double rating = rs.getDouble("AverageRating");
-            return rating;
-        }
-        catch (SQLException e){
-            rollback();
-            throw e;
-        }
-    }
-
     public void addReview(Review review, String username, Course course) throws SQLException {
         try{
             String insert = """
@@ -161,15 +143,15 @@ public class DatabaseDriver {
                         values 
                 """;
             int rating = review.getRating();
-            String timestamp = review.getTimestamp().toString();
+            String timestamp = review.getTimestamp();
             String comment = review.getComment();
             int userID = getUserIDbyUsername(username);
             int courseID = getCourseID(course);
             insert += "(" + rating + ", \"" + timestamp + "\", \"" + comment + "\", " + userID + ", " + courseID + ");";
-            //updateAverageCourseRating(Course course)
             PreparedStatement preparedStatement = connection.prepareStatement(insert);
             preparedStatement.executeUpdate();
             preparedStatement.close();
+            updateAverageCourseRating(course);
         }
         catch (SQLException e){
             rollback();
@@ -177,10 +159,17 @@ public class DatabaseDriver {
         }
     }
 
-    public void updateAverageCourseRating(Course course, int newRating) throws SQLException {
+    public void updateAverageCourseRating(Course course) throws SQLException {
         try{
-            //updateAverageCourseRating(Course course)
-            PreparedStatement preparedStatement = connection.prepareStatement("");
+            ArrayList<Review> courseReviews = getCourseReviews(course);
+            double averageRating = 0;
+            for(Review review: courseReviews){
+                averageRating += review.getRating();
+            }
+            averageRating /= courseReviews.size();
+            int courseID = getCourseID(course);
+            String update = "UPDATE Courses SET AverageRating = " + averageRating + " WHERE ID = " +  courseID + ";";
+            PreparedStatement preparedStatement = connection.prepareStatement(update);
             preparedStatement.executeUpdate();
             preparedStatement.close();
         }
@@ -212,15 +201,23 @@ public class DatabaseDriver {
             throw e;
         }
     }
-
-    //TODO: IMPLEMENT
     public ArrayList<Review> getUserReviews(String username) throws SQLException {
         try{
-            String insert = "";
-            PreparedStatement preparedStatement = connection.prepareStatement(insert);
-            preparedStatement.executeUpdate();
-            preparedStatement.close();
-            return new ArrayList<Review>();
+            int userID = getUserIDbyUsername(username);
+            String getMyReviews = "select * from Reviews WHERE UserID = " + userID + ";";
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(getMyReviews);
+
+            ArrayList<Review> myReviews = new ArrayList<Review>();
+
+            while(rs.next()) {
+                int rating = rs.getInt("Rating");
+                String timestamp = rs.getString("Timestamp");
+                String comment = rs.getString("Comment");
+                Review r = new Review(rating, timestamp, comment);
+                myReviews.add(r);
+            }
+            return myReviews;
         }
         catch (SQLException e){
             rollback();
@@ -228,14 +225,23 @@ public class DatabaseDriver {
         }
     }
 
-    //TODO: IMPLEMENT
     public ArrayList<Review> getCourseReviews(Course course) throws SQLException {
         try{
-            String insert = "";
-            PreparedStatement preparedStatement = connection.prepareStatement(insert);
-            preparedStatement.executeUpdate();
-            preparedStatement.close();
-            return new ArrayList<Review>();
+            int courseId = getCourseID(course);
+            String getCourseReviews = "select * from Reviews WHERE CourseID = " + courseId + ";";
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(getCourseReviews);
+
+            ArrayList<Review> courseReviews = new ArrayList<Review>();
+
+            while(rs.next()) {
+                int rating = rs.getInt("Rating");
+                String timestamp = rs.getString("Timestamp");
+                String comment = rs.getString("Comment");
+                Review r = new Review(rating, timestamp, comment);
+                courseReviews.add(r);
+            }
+            return courseReviews;
         }
         catch (SQLException e){
             rollback();
@@ -243,29 +249,44 @@ public class DatabaseDriver {
         }
     }
 
-    //TODO: IMPLEMENT
     public ArrayList<Course> getCourseBySubject(String subject) throws SQLException {
         try{
-            String insert = "";
-            PreparedStatement preparedStatement = connection.prepareStatement(insert);
-            preparedStatement.executeUpdate();
-            preparedStatement.close();
-            return new ArrayList<Course>();
+            String getCoursesUnderSubject = "select * from Courses WHERE SubjectMnemonic LIKE '"+subject+"';";
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(getCoursesUnderSubject);
+
+            ArrayList<Course> coursesUnderSubject = new ArrayList<Course>();
+
+            while(rs.next()) {
+                int courseNum = rs.getInt("CourseNumber");
+                String title = rs.getString("CourseTitle");
+                double rating = rs.getDouble("AverageRating");
+                Course c = new Course(subject, courseNum, title, rating);
+                coursesUnderSubject.add(c);
+            }
+            return coursesUnderSubject;
         }
         catch (SQLException e){
             rollback();
             throw e;
         }
     }
-
-    //TODO: IMPLEMENT
     public ArrayList<Course> getCourseByNumber(int number) throws SQLException {
         try{
-            String insert = "";
-            PreparedStatement preparedStatement = connection.prepareStatement(insert);
-            preparedStatement.executeUpdate();
-            preparedStatement.close();
-            return new ArrayList<Course>();
+            String getCoursesUnderNumber = "select * from Courses WHERE CourseNumber = " + number + ";";
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(getCoursesUnderNumber);
+
+            ArrayList<Course> coursesUnderNumber = new ArrayList<Course>();
+
+            while(rs.next()) {
+                String subj = rs.getString("SubjectMnemonic");
+                String title = rs.getString("CourseTitle");
+                double rating = rs.getDouble("AverageRating");
+                Course c = new Course(subj, number, title, rating);
+                coursesUnderNumber.add(c);
+            }
+            return coursesUnderNumber;
         }
         catch (SQLException e){
             rollback();
@@ -273,14 +294,22 @@ public class DatabaseDriver {
         }
     }
 
-    //TODO: IMPLEMENT
     public ArrayList<Course> getCourseByTitle(String title) throws SQLException {
         try{
-            String insert = "";
-            PreparedStatement preparedStatement = connection.prepareStatement(insert);
-            preparedStatement.executeUpdate();
-            preparedStatement.close();
-            return new ArrayList<Course>();
+            String getCoursesUnderTitle = "select * from Courses WHERE SubjectMnemonic LIKE '"+title+"';";
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(getCoursesUnderTitle);
+
+            ArrayList<Course> coursesUnderTitle = new ArrayList<Course>();
+
+            while(rs.next()) {
+                int courseNum = rs.getInt("CourseNumber");
+                String subj = rs.getString("SubjectMnemonic");
+                double rating = rs.getDouble("AverageRating");
+                Course c = new Course(subj, courseNum, title, rating);
+                coursesUnderTitle.add(c);
+            }
+            return coursesUnderTitle;
         }
         catch (SQLException e){
             rollback();

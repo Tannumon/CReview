@@ -9,11 +9,11 @@ public class Course {
     private String courseTitle;
     private double averageReviewRating;
 
-    public Course(String inpSubjMnemonic, int inpCourseNum, String inpCourseTitle){
+    public Course(String inpSubjMnemonic, int inpCourseNum, String inpCourseTitle, double inputRating){
         subjectMnemonic = inpSubjMnemonic;
         courseNumber = inpCourseNum;
         courseTitle = inpCourseTitle;
-        averageReviewRating = 0.0;
+        averageReviewRating = inputRating;
     }
     public String getSubjectMnemonic() {
         return subjectMnemonic;
