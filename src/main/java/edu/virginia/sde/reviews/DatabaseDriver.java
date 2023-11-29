@@ -44,7 +44,7 @@ public class DatabaseDriver {
                 (
                     ID         INTEGER  primary key,
                     Username   TEXT     not null unique,
-                    Password   TEXT     not null,
+                    Password   TEXT     not null
                 );
                 """;
 
@@ -55,7 +55,7 @@ public class DatabaseDriver {
                     SubjectMnemonic   TEXT     not null,
                     CourseNumber      INTEGER  not null,
                     CourseTitle       TEXT     not null,
-                    AverageRating     DOUBLE
+                    AverageRating     DOUBLE   not null
                 );
                 """;
 
@@ -88,12 +88,12 @@ public class DatabaseDriver {
     public void addUser(User user) throws SQLException {
         try{
             String insert = """
-                    insert into Users (Username, Passwords)
+                    insert into Users (Username, Password)
                         values 
                 """;
             String username = user.getUsername();
             String password = user.getPassword();
-            insert += "(\"" + username + "\", \"" + password + "\", );";
+            insert += "(\"" + username + "\", \"" + password + "\");";
             PreparedStatement preparedStatement = connection.prepareStatement(insert);
             preparedStatement.executeUpdate();
             preparedStatement.close();
@@ -109,6 +109,8 @@ public class DatabaseDriver {
             String getUserID = "select * from Users where Username LIKE '"+username+"'";
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery(getUserID);
+            if(rs.next() == false)
+                return -1;
             int userID = rs.getInt("ID");
             return userID;
         }

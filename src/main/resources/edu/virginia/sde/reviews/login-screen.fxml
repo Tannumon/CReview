@@ -22,15 +22,15 @@
         <VBox layoutX="0" layoutY="70" prefHeight="100.0" prefWidth="300.0" alignment="CENTER">
             <children>
                 <HBox layoutX = "0" layoutY ="0" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
-                    <Label text= "Username" />
+                    <Label text= "Username"/>
                     <HBox  layoutX = "5" layoutY ="0" prefHeight = "100.0" prefWidth = "10"> </HBox>
-                    <TextField />
+                    <TextField fx:id="usernameField" />
                 </HBox>
 
                 <HBox layoutX = "0" layoutY ="0" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
                     <Label text = "Password" />
                     <HBox  layoutX = "5" layoutY ="0" prefHeight = "100.0" prefWidth = "14"> </HBox>
-                    <PasswordField/>
+                    <PasswordField fx:id="passwordField" />
                 </HBox>
 
                 <HBox layoutX = "0" layoutY ="0" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
@@ -38,7 +38,7 @@
                     <HBox layoutX = "5" layoutY ="0" prefHeight = "100.0" prefWidth = "50"> </HBox>
                     <Button fx:id="createUserButton" onAction="#create"> Create User </Button>
                 </HBox>
-                <Label text= "" fx:id="errorMessages"/>
+                <Label fx:id="errorMessage"/>
             </children>
         </VBox>
 

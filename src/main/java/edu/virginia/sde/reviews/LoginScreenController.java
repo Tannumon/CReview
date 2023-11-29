@@ -45,6 +45,7 @@ public class LoginScreenController {
                 errorMessage.setText("User does not exist! Please enter information, select Create User, and then try again!");
                 usernameField.clear();
                 passwordField.clear();
+                driver.disconnect();
             }
             else{
                 if(password.equals(driver.getUserPassword(username))){
@@ -66,54 +67,36 @@ public class LoginScreenController {
     }
 
     @FXML
-    private void create(ActionEvent event) throws IOException {
+    private void create() throws IOException {
         String username = usernameField.getText();
         String password = passwordField.getText();
         try {
             driver.connect();
             if(driver.getUserIDbyUsername(username) != -1){
                 errorMessage.setText("User already exists! Please log in!");
+                usernameField.clear();
+                passwordField.clear();
+                driver.disconnect();
             }
             else{
                 if(password.length() < 8){
                     passwordField.clear();
                     errorMessage.setText("Please enter a password that is 8 or more characters in length and try again.");
                 }
-                User newUser = new User(username, password);
-                driver.addUser(newUser);
-                driver.commit();
+                else{
+                    User newUser = new User(username, password);
+                    errorMessage.setText("User account created successfully! Please log in!");
+                    driver.addUser(newUser);
+                    driver.commit();
+                    usernameField.clear();
+                    passwordField.clear();
+                }
                 driver.disconnect();
             }
 
         } catch (SQLException e) {
             errorMessage.setText("Something went wrong. Please try again!");
-        }
-    }
-
-
-
-
-
-    // Method to handle saving data to SQLite and clearing fields
-   /* @FXML
-    private void addingUsertoDB() {
-        String username = usernameField.getText();
-        String password = passwordField.getText();
-        // Save to SQLite Database
-        try {
-            Connection userConnection = DriverManager.getConnection("PATH/TO/DB");
-            String sql = "INSERT INTO User (username, password) VALUES (?, ?)";
-            PreparedStatement pstmt = userConnection.prepareStatement(sql);
-            pstmt.setString(1, username);
-            pstmt.setString(2, password);
-            pstmt.executeUpdate();
-            userConnection.close();
-        } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        // Clear text fields after insertion
-        usernameField.clear();
-        passwordField.clear();
-    }*/
+    }
 }
