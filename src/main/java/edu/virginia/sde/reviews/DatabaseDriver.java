@@ -104,11 +104,69 @@ public class DatabaseDriver {
         }
     }
 
-    //TODO: IMPLEMENT
-    public void addReview(Review review) throws SQLException {
+    public int getUserIDbyUsername(String username) throws SQLException {
         try{
-            String insert = "";
-            insert += "(\"" + "aaaaaa" + "\", \"" + "bbbbbbb" + "\", );";
+            String getUserID = "select * from Users where Username LIKE '"+username+"'";
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(getUserID);
+            int userID = rs.getInt("ID");
+            return userID;
+        }
+        catch (SQLException e){
+            rollback();
+            throw e;
+        }
+    }
+
+    public int getCourseID(Course course) throws SQLException {
+        try{
+            String getUserID = "select * from Courses where SubjectMnemonic LIKE '"+course.getSubjectMnemonic()+"' " +
+                    "AND CourseTitle LIKE '"+course.getSubjectMnemonic()+"' " +
+                    "AND CourseNumber = " + course.getCourseNumber() + ";";
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(getUserID);
+            if(rs.next() == false)
+                return -1;
+            int courseID = rs.getInt("ID");
+            return courseID;
+        }
+        catch (SQLException e){
+            rollback();
+            throw e;
+        }
+    }
+
+    public double getCourseRating(Course course) throws SQLException {
+        try{
+            String getUserID = "select * from Courses where SubjectMnemonic LIKE '"+course.getSubjectMnemonic()+"' " +
+                    "AND CourseTitle LIKE '"+course.getSubjectMnemonic()+"' " +
+                    "AND CourseNumber = " + course.getCourseNumber() + ";";
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(getUserID);
+            if(rs.next() == false)
+                return -1;
+            double rating = rs.getDouble("AverageRating");
+            return rating;
+        }
+        catch (SQLException e){
+            rollback();
+            throw e;
+        }
+    }
+
+    public void addReview(Review review, String username, Course course) throws SQLException {
+        try{
+            String insert = """
+                    insert into Reviews (Rating, Timestamp, Comment, UserID, CourseID)
+                        values 
+                """;
+            int rating = review.getRating();
+            String timestamp = review.getTimestamp().toString();
+            String comment = review.getComment();
+            int userID = getUserIDbyUsername(username);
+            int courseID = getCourseID(course);
+            insert += "(" + rating + ", \"" + timestamp + "\", \"" + comment + "\", " + userID + ", " + courseID + ");";
+            //updateAverageCourseRating(Course course)
             PreparedStatement preparedStatement = connection.prepareStatement(insert);
             preparedStatement.executeUpdate();
             preparedStatement.close();
@@ -119,11 +177,32 @@ public class DatabaseDriver {
         }
     }
 
-    //TODO: IMPLEMENT
+    public void updateAverageCourseRating(Course course, int newRating) throws SQLException {
+        try{
+            //updateAverageCourseRating(Course course)
+            PreparedStatement preparedStatement = connection.prepareStatement("");
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        }
+        catch (SQLException e){
+            rollback();
+            throw e;
+        }
+    }
+
     public void addCourse(Course course) throws SQLException {
         try{
-            String insert = "";
-            insert += "(\"" + "aaaaaa" + "\", \"" + "bbbbbbb" + "\", );";
+            if(getCourseID(course) == -1)
+                return;
+            String insert = """
+                    insert into Courses (SubjectMnemonic, CourseNumber, CourseTitle, AverageRating)
+                        values 
+                """;
+            String subj = course.getSubjectMnemonic();
+            int courseNum = course.getCourseNumber();
+            String title = course.getCourseTitle();
+            double rating = course.getAverageReviewRating();
+            insert += "(\"" + subj + "\", " + courseNum + ", \"" + title + "\", " + rating + ");";
             PreparedStatement preparedStatement = connection.prepareStatement(insert);
             preparedStatement.executeUpdate();
             preparedStatement.close();
