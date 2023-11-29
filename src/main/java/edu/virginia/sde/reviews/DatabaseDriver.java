@@ -197,7 +197,7 @@ public class DatabaseDriver {
 
     public void addCourse(Course course) throws SQLException {
         try{
-            if(getCourseID(course) == -1)
+            if(getCourseID(course) != -1)
                 return;
             String insert = """
                     insert into Courses (SubjectMnemonic, CourseNumber, CourseTitle, AverageRating)

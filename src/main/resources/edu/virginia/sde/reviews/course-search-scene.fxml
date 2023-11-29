@@ -58,22 +58,24 @@
     <HBox layoutX = "0" layoutY ="500" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
         <Label text= "Mnemonic: "/>
         <HBox  layoutX = "5" layoutY ="0" prefHeight = "100.0" prefWidth = "10"> </HBox>
-        <TextField />
+        <TextField fx:id="addSubject"/>
     </HBox>
 
     <HBox layoutX = "225" layoutY ="500" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
         <Label text = "Number: "/>
         <HBox  layoutX = "30" layoutY ="0" prefHeight = "100.0" prefWidth = "14"> </HBox>
-        <TextField/>
+        <TextField fx:id="addNumber"/>
     </HBox>
 
     <HBox layoutX = "450" layoutY ="500" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
         <Label text = "Title: "/>
         <HBox  layoutX = "30" layoutY ="0" prefHeight = "100.0" prefWidth = "14"> </HBox>
-        <TextField/>
+        <TextField fx:id="addTitle"/>
     </HBox>
 
     <HBox layoutX = "600" layoutY ="500" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
         <Button fx:id="createClassButton" onAction="#createCourse"> Add Class </Button>
     </HBox>
+
+    <Label fx:id="addClassErrorMessage"/>
 </AnchorPane>
