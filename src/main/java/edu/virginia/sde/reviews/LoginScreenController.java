@@ -20,12 +20,6 @@ import java.sql.SQLException;
 
 public class LoginScreenController {
     @FXML
-    private Button loginButton;
-
-    @FXML
-    private Button createUserButton;
-
-    @FXML
     private TextField usernameField;
 
     @FXML
