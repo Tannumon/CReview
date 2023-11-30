@@ -35,6 +35,12 @@ public class CourseSearchSceneController {
     private TextField addSubject;
     @FXML
     private TextField addTitle;
+    @FXML
+    private TextField subjectSearch;
+    @FXML
+    private TextField numberSearch;
+    @FXML
+    private TextField titleSearch;
     DatabaseDriver driver = new DatabaseDriver("course_review_system.sqlite3");
     private ObservableList<Course> courseData = FXCollections.observableArrayList();
     @FXML
@@ -170,5 +176,68 @@ public class CourseSearchSceneController {
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
+    }
+
+    private ArrayList<Course> filterBySubject(ArrayList<Course> current, String subj){
+        ArrayList<Course> result = new ArrayList<Course>();
+        for(Course course : current){
+            if(course.getSubjectMnemonic().equalsIgnoreCase(subj))
+                result.add(course);
+        }
+        return result;
+    }
+
+    private ArrayList<Course> filterByNumber(ArrayList<Course> current, int num){
+        ArrayList<Course> result = new ArrayList<Course>();
+        for(Course course : current){
+            if(course.getCourseNumber() == num)
+                result.add(course);
+        }
+        return result;
+    }
+
+    private ArrayList<Course> filterByTitle(ArrayList<Course> current, String title){
+        ArrayList<Course> result = new ArrayList<Course>();
+        for(Course course : current){
+            if(course.getCourseTitle().equalsIgnoreCase(title))
+                result.add(course);
+        }
+        return result;
+    }
+
+    @FXML
+    private void searchResult() throws IOException{
+        try {
+            driver.connect();
+            String subject = subjectSearch.getText();
+            String num_temp = numberSearch.getText();
+            String title = titleSearch.getText();
+            if(!isNum(num_temp) && !num_temp.isEmpty()){
+                addClassErrorMessage.setText("Please enter a valid number and try again!");
+            }
+            else{
+                ArrayList<Course> searchResults = driver.getAllCourses();
+                if(!subject.isEmpty())
+                    searchResults = filterBySubject(searchResults, subject);
+                if(!num_temp.isEmpty()){
+                    int num = Integer.parseInt(num_temp);
+                    searchResults = filterByNumber(searchResults, num);
+                }
+                if(!title.isEmpty())
+                    searchResults = filterByTitle(searchResults, title);
+                ObservableList<Course> searchData = FXCollections.observableArrayList();
+                for(Course c: searchResults){
+                    searchData.add(c);
+                }
+                courseTable.refresh();
+                courseTable.setItems(searchData);
+            }
+            driver.disconnect();
+
+        } catch (SQLException ex) {
+        throw new RuntimeException(ex);
+    }
+
+
     }
 }

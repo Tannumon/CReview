@@ -15,29 +15,29 @@
 
     <!-- Searching a course-->
     <HBox layoutX = "0" layoutY ="0" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
-        <Label text= "Search: "/>
+        <Label text= "Subject: "/>
         <HBox  layoutX = "5" layoutY ="0" prefHeight = "100.0" prefWidth = "10"> </HBox>
-        <TextField />
+        <TextField fx:id="subjectSearch"/>
     </HBox>
 
     <HBox layoutX = "225" layoutY ="0" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
         <Label text = "Number: "/>
         <HBox  layoutX = "30" layoutY ="0" prefHeight = "100.0" prefWidth = "14"> </HBox>
-        <TextField/>
+        <TextField fx:id="numberSearch" />
     </HBox>
 
     <HBox layoutX = "450" layoutY ="0" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
         <Label text = "Title: "/>
         <HBox  layoutX = "30" layoutY ="0" prefHeight = "100.0" prefWidth = "14"> </HBox>
-        <TextField/>
+        <TextField fx:id="titleSearch" />
     </HBox>
 
-    <HBox layoutX = "600" layoutY ="0" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
-        <Button text = "Search"/>
-    </HBox>
+<!--    <HBox layoutX = "600" layoutY ="0" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">-->
+<!--        <Button >Search</Button>-->
+<!--    </HBox>-->
 
     <HBox layoutX = "675" layoutY ="0" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
-        <Button text = "Close"/>
+        <Button text = "Search" onAction="#searchResult"/>
     </HBox>
 
     <!-- TableView, testing with the username and password and not with the courses which is what it should be-->
