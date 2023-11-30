@@ -87,10 +87,8 @@ public class LoginScreenController {
                 }
                 driver.disconnect();
             }
-
         } catch (SQLException e) {
             errorMessage.setText("Something went wrong. Please try again!");
-            e.printStackTrace();
         }
     }
 }

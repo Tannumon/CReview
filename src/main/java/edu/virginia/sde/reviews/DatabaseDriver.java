@@ -333,6 +333,30 @@ public class DatabaseDriver {
         }
     }
 
+    public ArrayList<Course> getAllCourses() throws SQLException {
+        try{
+            String getCoursesUnderTitle = "select * from Courses;";
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(getCoursesUnderTitle);
+
+            ArrayList<Course> courses = new ArrayList<Course>();
+
+            while(rs.next()) {
+                int courseNum = rs.getInt("CourseNumber");
+                String subj = rs.getString("SubjectMnemonic");
+                double rating = rs.getDouble("AverageRating");
+                String title = rs.getString("CourseTitle");
+                Course c = new Course(subj, courseNum, title, rating);
+                courses.add(c);
+            }
+            return courses;
+        }
+        catch (SQLException e){
+            rollback();
+            throw e;
+        }
+    }
+
     public void clearTables() throws SQLException {
         String deleteUsers = "delete from Users";
         String deleteCourses = "delete from Courses";

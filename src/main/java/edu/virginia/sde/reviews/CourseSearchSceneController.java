@@ -1,5 +1,7 @@
 package edu.virginia.sde.reviews;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,18 +14,21 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class CourseSearchSceneController{
+public class CourseSearchSceneController {
 
     @FXML
-    private Button createClassButton;
-    @FXML
     private Label addClassErrorMessage;
+    @FXML
+    private Label addClassSubjectErrorMessage;
+    @FXML
+    private Label addClassNumberErrorMessage;
+    @FXML
+    private Label addClassTitleErrorMessage;
+
     @FXML
     private TextField addNumber;
     @FXML
@@ -31,16 +36,75 @@ public class CourseSearchSceneController{
     @FXML
     private TextField addTitle;
     DatabaseDriver driver = new DatabaseDriver("course_review_system.sqlite3");
+    private ObservableList<Course> courseData = FXCollections.observableArrayList();
+    @FXML
+    private TableView<Course> courseTable;
+    ObservableList<Course> data = FXCollections.observableArrayList();
+    public void initialize() {
+        try {
+            driver.connect();
+            // Create columns
+            TableColumn<Course, String> courseMnem = new TableColumn<>("Subject");
+            TableColumn<Course, Integer> courseInt = new TableColumn<>("Number");
+            TableColumn<Course, String> courseTit = new TableColumn<>("Title");
+            TableColumn<Course, Double> courseAvgRat = new TableColumn<>("Average Rating");
 
-//    public void initialize(URL location, ResourceBundle resources) throws SQLException {
-//        driver.connect();
-//        addSubject.setCellValueFactory(new PropertyValueFactory<>("Subject"));
-//        subjNum.setCellValueFactory(new PropertyValueFactory<>("Number"));
-//        subjTitle.setCellValueFactory(new PropertyValueFactory<>("Title"));
-//    }
+            courseMnem.setCellValueFactory(new PropertyValueFactory<>("subjectMnemonic"));
+            courseInt.setCellValueFactory(new PropertyValueFactory<>("courseNumber"));
+            courseTit.setCellValueFactory(new PropertyValueFactory<>("courseTitle"));
+            courseAvgRat.setCellValueFactory(new PropertyValueFactory<>("averageReviewRating"));
+
+            // Add columns to the TableView
+            courseTable.getColumns().add(courseMnem);
+            courseTable.getColumns().add(courseInt);
+            courseTable.getColumns().add(courseTit);
+            courseTable.getColumns().add(courseAvgRat);
+
+            // Populate data
+
+            ArrayList<Course> courses = driver.getAllCourses();
+            for(Course course: courses) {
+                data.add(course);
+            }
+            courseTable.setItems(data);
+            driver.commit();
+            driver.disconnect();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addRow(Course newCourse) {
+        courseData.add(newCourse);
+    }
+
+    private boolean isAlpha(String input){
+        String str = input.toLowerCase();
+        String alphabet = "abcdefghijklmnopqrstuvwxyz";
+        for(int x = 0; x < str.length(); x++){
+            if(!alphabet.contains(str.substring(x, x+1)))
+                return false;
+        }
+        return true;
+    }
+
+    private boolean isNum(String input){
+        String str = input.toLowerCase();
+        String alphabet = "1234567890";
+        for(int x = 0; x < str.length(); x++){
+            if(!alphabet.contains(str.substring(x, x+1)))
+                return false;
+        }
+        return true;
+    }
 
     @FXML
     private void createCourse() throws IOException {
+        addClassSubjectErrorMessage.setText("");
+        addClassTitleErrorMessage.setText("");
+        addClassNumberErrorMessage.setText("");
+        addClassErrorMessage.setText("");
         int errs = 0;
         String courseSubj = addSubject.getText();
         String courseNum = addNumber.getText();
@@ -58,26 +122,31 @@ public class CourseSearchSceneController{
             } else {
                 if (courseNum.length() != 4) {
                     addNumber.clear();
-                    addClassErrorMessage.setText("The course number must be 4 digits.");
+                    addClassNumberErrorMessage.setText("The course number must be 4 digits.");
                     errs += 1;
                 }
                 if ((courseSubj.length() > 4) || (courseSubj.length() < 2)) {
                     addSubject.clear();
-                    addClassErrorMessage.setText("The course mnemonic must be between 2 and 4 characters");
+                    addClassSubjectErrorMessage.setText("The course mnemonic must be between 2 and 4 characters");
                     errs += 1;
                 }
-                if ((courseSubj.length() > 4) || (courseSubj.length() < 2)) {
+                if (!isAlpha(courseSubj)) {
                     addSubject.clear();
-                    addClassErrorMessage.setText("The course mnemonic must only be characters, no numbers or symbols.");
+                    addClassSubjectErrorMessage.setText("The course mnemonic must only be characters, no numbers or symbols.");
+                    errs += 1;
+                }
+                if (!isNum(courseNum)) {
+                    addNumber.clear();
+                    addClassNumberErrorMessage.setText("The course number must only be digits, no letters or symbols.");
                     errs += 1;
                 }
                 if (courseTitle.length() > 50) {
                     addTitle.clear();
-                    addClassErrorMessage.setText("The course Title must be between 1 and 50 characters.");
+                    addClassTitleErrorMessage.setText("The course Title must be between 1 and 50 characters.");
                     errs += 1;
                 }
             }
-            Course newCourse = new Course(courseSubj, Integer.parseInt(courseNum), courseTitle, 0.00);
+            Course newCourse = new Course(courseSubj.toUpperCase(), Integer.parseInt(courseNum), courseTitle, 0.00);
             if (driver.getCourseID(newCourse) < 1) {
                 if (errs == 0) {
                     addClassErrorMessage.setText("Course successfully created, write a review if you would like!");
@@ -87,6 +156,8 @@ public class CourseSearchSceneController{
                     driver.addCourse(newCourse);
                     driver.commit();
                     driver.disconnect();
+                    data.add(newCourse);
+                    courseTable.setItems(data);
                 }
             } else {
                 addClassErrorMessage.setText("The class already exists. Write a review for this class or add another class instead.");
