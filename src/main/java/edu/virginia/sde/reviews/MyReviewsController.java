@@ -18,7 +18,7 @@ public class MyReviewsController {
     @FXML
     private TextField usernameField;
 
-    String username = usernameField.getText();
+    //String username = usernameField.getText();
 
     DatabaseDriver driver = new DatabaseDriver("course_review_system.sqlite3");
     ObservableList<Review> data = FXCollections.observableArrayList();
@@ -48,19 +48,16 @@ public class MyReviewsController {
             myReviewsTable.getColumns().add(reviewTime);
 
             //Populate data
-            ArrayList<Review> allReviews = driver.getUserReviews(username);
-            for(Review review: allReviews) {
-                data.add(review);
-            }
-            myReviewsTable.setItems(data);
-            driver.commit();
-            driver.disconnect();
+//            ArrayList<Review> allReviews = driver.getUserReviews(username);
+//            for(Review review: allReviews) {
+//                data.add(review);
+//            }
+//            myReviewsTable.setItems(data);
+//            driver.commit();
+//            driver.disconnect();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
-
-        }
     }
+}

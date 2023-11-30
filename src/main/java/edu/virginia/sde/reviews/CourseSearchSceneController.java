@@ -247,13 +247,9 @@ public class CourseSearchSceneController {
             Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(thirdPage));
             stage.show();
-                driver.disconnect();
-            }
-
-        catch (SQLException e) {
+            driver.disconnect();
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
-
-
 }
