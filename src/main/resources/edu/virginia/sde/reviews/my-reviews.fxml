@@ -6,9 +6,19 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.text.Text?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="edu.virginia.sde.reviews.MyReviewsController"
             prefHeight="400.0" prefWidth="600.0">
+
+    <HBox layoutX = "0" layoutY ="0" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
+        <Text text= "My Reviews" style="-fx-font-size: 16;"/>
+    </HBox>
+
+        <children>
+            <TableView fx:id="myReviewsTable" layoutX="0.0" layoutY="0.0" prefHeight="300.0" prefWidth="450.0">
+            </TableView>
+        </children>
 
 </AnchorPane>
