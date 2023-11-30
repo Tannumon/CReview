@@ -233,11 +233,8 @@ public class CourseSearchSceneController {
                 courseTable.setItems(searchData);
             }
             driver.disconnect();
-
         } catch (SQLException ex) {
         throw new RuntimeException(ex);
-    }
-
-
+        }
     }
 }
