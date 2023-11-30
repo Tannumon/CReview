@@ -68,8 +68,12 @@
         <TextField fx:id="addTitle"/>
     </HBox>
 
-    <HBox layoutX = "600" layoutY ="500" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
+    <HBox layoutX = "650" layoutY ="500" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
         <Button fx:id="createClassButton" onAction="#createCourse"> Add Class </Button>
+    </HBox>
+
+    <HBox layoutX = "800" layoutY ="500" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
+        <Button fx:id = "MyReviewsButton" onAction="#moveToNextScreen"> My Reviews </Button>
     </HBox>
 
     <VBox layoutX = "250" layoutY ="575">

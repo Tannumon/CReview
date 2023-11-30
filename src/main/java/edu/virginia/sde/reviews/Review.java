@@ -8,10 +8,16 @@ public class Review {
     private String timestamp;
     private String comment;
 
-    public Review(int inpRating, String inpTimestamp, String inpComment){
+    private int courseId;
+
+    private int userId;
+
+    public Review(int inpRating, String inpTimestamp, String inpComment, int cID, int uID){
         rating = inpRating;
         timestamp = inpTimestamp;
         comment = inpComment;
+        courseId = cID;
+        userId = uID;
     }
 
     public int getRating(){

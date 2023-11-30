@@ -230,7 +230,9 @@ public class DatabaseDriver {
                 int rating = rs.getInt("Rating");
                 String timestamp = rs.getString("Timestamp");
                 String comment = rs.getString("Comment");
-                Review r = new Review(rating, timestamp, comment);
+                int courseID = rs.getInt ("CourseID");
+                int userIDNumber = rs.getInt ("UserID");
+                Review r = new Review(rating, timestamp, comment, courseID, userIDNumber);
                 myReviews.add(r);
             }
             return myReviews;
@@ -254,7 +256,9 @@ public class DatabaseDriver {
                 int rating = rs.getInt("Rating");
                 String timestamp = rs.getString("Timestamp");
                 String comment = rs.getString("Comment");
-                Review r = new Review(rating, timestamp, comment);
+                int courseID = rs.getInt ("CourseID");
+                int userIDNumber = rs.getInt ("UserID");
+                Review r = new Review(rating, timestamp, comment, courseID, userIDNumber);
                 courseReviews.add(r);
             }
             return courseReviews;

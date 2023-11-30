@@ -14,24 +14,24 @@ import java.util.ArrayList;
 public class MyReviewsController {
 
     @FXML
-    private TableView<MyReview> myReviewsTable;
+    private TableView<Review> myReviewsTable;
     @FXML
     private TextField usernameField;
 
     String username = usernameField.getText();
 
     DatabaseDriver driver = new DatabaseDriver("course_review_system.sqlite3");
-    ObservableList<MyReview> data = FXCollections.observableArrayList();
+    ObservableList<Review> data = FXCollections.observableArrayList();
 
     public void initialize() {
         try {
             driver.connect();
             // Create columns
-            TableColumn<MyReview, String> reviewCourseMnem = new TableColumn<>("Subject");
-            TableColumn<MyReview, Integer> reviewCourseNum = new TableColumn<>("Number");
-            TableColumn<MyReview, Integer> reviewRating = new TableColumn<>("Rating");
-            TableColumn<MyReview, String> reviewComment = new TableColumn<>("Comment");
-            TableColumn<MyReview, String> reviewTime = new TableColumn<>("Time Stamp");
+            TableColumn<Review, String> reviewCourseMnem = new TableColumn<>("Subject");
+            TableColumn<Review, Integer> reviewCourseNum = new TableColumn<>("Number");
+            TableColumn<Review, Integer> reviewRating = new TableColumn<>("Rating");
+            TableColumn<Review, String> reviewComment = new TableColumn<>("Comment");
+            TableColumn<Review, String> reviewTime = new TableColumn<>("Time Stamp");
 
 
             reviewCourseMnem.setCellValueFactory(new PropertyValueFactory<>("subjectMnemonic"));
@@ -47,14 +47,14 @@ public class MyReviewsController {
             myReviewsTable.getColumns().add(reviewComment);
             myReviewsTable.getColumns().add(reviewTime);
 
-            /*//Populate data
-            ArrayList<MyReview> allReviews = driver.getUserReviews(username);
-            for(MyReview review: allReviews) {
+            //Populate data
+            ArrayList<Review> allReviews = driver.getUserReviews(username);
+            for(Review review: allReviews) {
                 data.add(review);
             }
             myReviewsTable.setItems(data);
             driver.commit();
-            driver.disconnect(); */
+            driver.disconnect();
 
         } catch (SQLException e) {
             e.printStackTrace();
