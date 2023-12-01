@@ -199,7 +199,7 @@ public class CourseSearchSceneController {
     private ArrayList<Course> filterByTitle(ArrayList<Course> current, String title){
         ArrayList<Course> result = new ArrayList<Course>();
         for(Course course : current){
-            if(course.getCourseTitle().equalsIgnoreCase(title))
+            if(course.getCourseTitle().toLowerCase().contains(title.toLowerCase()))
                 result.add(course);
         }
         return result;
