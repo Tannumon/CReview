@@ -10,19 +10,20 @@
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="edu.virginia.sde.reviews.MyReviewsController"
-            prefHeight="400.0" prefWidth="600.0">
+            prefHeight="400.0" prefWidth="800.0">
 
-    <VBox layoutX = "0" layoutY ="0" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
+    <VBox layoutX = "150" layoutY ="0" prefHeight = "100.0" prefWidth = "450.0" alignment = "CENTER">
         <Text text= "My Reviews" style="-fx-font-size: 16;"/>
-    </VBox>
-
-    <VBox layoutX = "300" layoutY ="0" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER_RIGHT">
-        <Button text= "Back"/>
-    </VBox>
 
         <children>
-            <TableView fx:id="myReviewsTable" layoutX="0.0" layoutY="0.0" prefHeight="300.0" prefWidth="450.0">
+            <TableView fx:id="myReviewsTable" layoutX="0.0" layoutY="0.0" prefHeight="300.0" prefWidth="450.0" >
             </TableView>
         </children>
+
+    </VBox>
+
+
+
+
 
 </AnchorPane>

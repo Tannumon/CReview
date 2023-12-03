@@ -16,12 +16,17 @@ public class MyReviewsController {
     @FXML
     private TableView<Review> myReviewsTable;
 
+    private User userOfApp;
 
-    LoginScreenController justForUserName = new LoginScreenController();
-    //String username = justForUserName.getUsernameField();
+    User user = UserSingleton.getInstance().getUser();
 
     DatabaseDriver driver = new DatabaseDriver("course_review_system.sqlite3");
     ObservableList<Review> data = FXCollections.observableArrayList();
+
+
+    public void setUserModel(User userModel) {
+        userOfApp = userModel;
+    }
 
     public void initialize() {
         try {
@@ -47,14 +52,14 @@ public class MyReviewsController {
             myReviewsTable.getColumns().add(reviewComment);
             myReviewsTable.getColumns().add(reviewTime);
 
-            //Populate data
-            /*ArrayList<Review> allReviews = driver.getUserReviews(username);
+            //Populate dat
+            ArrayList<Review> allReviews = driver.getUserReviews(driver.getUserPassword(user.getUsername()));
             for(Review review: allReviews) {
                 data.add(review);
             }
             myReviewsTable.setItems(data);
             driver.commit();
-            driver.disconnect();*/
+            driver.disconnect();
 
         } catch (SQLException e) {
             e.printStackTrace();
