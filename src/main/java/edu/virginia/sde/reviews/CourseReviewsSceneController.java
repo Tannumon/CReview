@@ -135,6 +135,19 @@ public class CourseReviewsSceneController {
         averageRating.setText("Average Rating: " + course.getAverageReviewRating());
     }
 
+    public void goToCourseSearches(ActionEvent actionEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("course-search-scene.fxml"));
+            var scene = new Scene(loader.load());
+            var controller = (CourseSearchSceneController)loader.getController();
+            controller.setStage(stage);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e){
+            throw new RuntimeException(e);
+        }
+    }
+
     public record courseReview(int score, String comment, Timestamp date) {
         public int getScore() {
             return score;
