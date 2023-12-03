@@ -33,16 +33,29 @@ public class CourseReviewsSceneController {
     private RadioButton radio5;
     @FXML
     private TableView<courseReview> courseTable;
+    @FXML
+    private Label courseDetails;
+    @FXML
+    private Label averageRating;
 
     private int rating;
+
+    private Stage stage;
+    private Course course;
+    private ToggleGroup buttonGroup;
 
     private ObservableList<courseReview> reviewsData;
 
     DatabaseDriver driver = new DatabaseDriver("course_review_system.sqlite3");
     public void initialize() {
         try {
-            driver.connect();
             // Create columns
+            buttonGroup = new ToggleGroup();
+            radio1.setToggleGroup(buttonGroup);
+            radio2.setToggleGroup(buttonGroup);
+            radio3.setToggleGroup(buttonGroup);
+            radio4.setToggleGroup(buttonGroup);
+            radio5.setToggleGroup(buttonGroup);
             TableColumn<courseReview, Integer> score = new TableColumn<>("Score");
             TableColumn<courseReview, String> comment = new TableColumn<>("Comment");
             TableColumn<courseReview, Timestamp> date = new TableColumn<>("Date");
@@ -54,10 +67,9 @@ public class CourseReviewsSceneController {
             courseTable.getColumns().add(score);
             courseTable.getColumns().add(comment);
             courseTable.getColumns().add(date);
-
+            // create empty reviewsData observable list with datarows in the tableView
             reviewsData = FXCollections.observableArrayList(courseTable.getItems());
-
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -65,12 +77,12 @@ public class CourseReviewsSceneController {
     public void addRow(courseReview newReview) {
         reviewsData.add(newReview);
     }
-    @FXML
-    /*private void saveReview() throws IOException {
+    /*@FXML
+    private void saveReview() throws IOException {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
-        String pattern = "yyyy-MM-dd";
-        String timestamp = new SimpleDateFormat(pattern).format(new Date());
+        //String pattern = "yyyy-MM-dd";
+        //String timestamp = new SimpleDateFormat(pattern).format(new Date());
         String comment = myReview.getText();
         if (radio1.isSelected()) {
             rating = 1;
@@ -90,27 +102,38 @@ public class CourseReviewsSceneController {
 
         //add functionality for if nothing is selected and button is pressed
 
-        Review rev = new Review(rating, timestamp.toString(), comment, 1, );
-        driver.addReview(rev, UserSingleton.getInstance().getUser().getUsername());
-    }*/
-    @FXML
-    private void deleteReview() throws IOException {
-    }
-
-    @FXML
-    /*private void moveToNextScreen(ActionEvent event) throws IOException {
         try {
-            driver.connect();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("my-reviews.fxml"));
-            Parent thirdPage = loader.load();
-            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(thirdPage));
-            stage.show();
-            driver.disconnect();
+            String username = UserSingleton.getInstance().getUser().getUsername();
+            Review rev = null;
+            rev = new Review(rating, timestamp.toString(), comment, course.getCourseNumber(), driver.getUserIDbyUsername(username));
+            driver.addReview(rev, username, course);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+    @FXML
+    private void deleteReview() throws SQLException {
+        if ()
+        updateReviewsDatabase();
+    }
+
+    private void updateMyCourseReviewsPage() throws SQLException {
+        updateMyCourseReviewsTable();
     }*/
+
+    /*private void updateReviewsDatabase() throws SQLException {
+        ArrayList<Review> allCourseReviews = driver.getCourseReviews(course);
+        reviewsData.clear();
+        for (Review r: allCourseReviews) {
+            reviewsData.add(new courseReview())
+        }
+    }*/
+
+    public void setCourse(Course course) {
+        this.course = course;
+        courseDetails.setText(course.getSubjectMnemonic() + " " + course.getCourseNumber() + ": " + course.getCourseTitle());
+        averageRating.setText("Average Rating: " + course.getAverageReviewRating());
+    }
 
     public record courseReview(int score, String comment, Timestamp date) {
         public int getScore() {
@@ -122,5 +145,8 @@ public class CourseReviewsSceneController {
         public Timestamp getDate() {
             return date;
         }
+    }
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 }
