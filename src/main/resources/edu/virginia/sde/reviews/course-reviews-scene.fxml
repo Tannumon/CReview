@@ -55,6 +55,7 @@
                     <Button text = "Delete"/>
                 </VBox>
             </HBox>
+            <Button text = "Back" onAction = "#goToCourseSearches"/>
         </children>
     </VBox>
 </AnchorPane>
