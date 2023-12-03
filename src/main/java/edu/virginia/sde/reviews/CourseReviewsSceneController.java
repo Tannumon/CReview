@@ -59,6 +59,13 @@ public class CourseReviewsSceneController {
             TableColumn<courseReview, Integer> score = new TableColumn<>("Score");
             TableColumn<courseReview, String> comment = new TableColumn<>("Comment");
             TableColumn<courseReview, Timestamp> date = new TableColumn<>("Date");
+
+            courseTable.setRowFactory(tv -> {
+                TableRow<courseReview> row = new TableRow<>();
+                row.setOnMouseClicked(e -> populateFields(row));
+                return row;
+            });
+
             // kind of like setting up the table in terms of data types
             score.setCellValueFactory(new PropertyValueFactory<>("score"));
             comment.setCellValueFactory(new PropertyValueFactory<>("comment"));
@@ -74,7 +81,19 @@ public class CourseReviewsSceneController {
         }
     }
 
-    public void addRow(courseReview newReview) {
+    private void populateFields(TableRow<courseReview> row) {
+        myReview.setText(row.getItem().getComment());
+        int rating = row.getItem().getScore();
+        switch (rating) {
+            case 1: radio1.setSelected(true);
+            case 2: radio2.setSelected(true);
+            case 3: radio3.setSelected(true);
+            case 4: radio4.setSelected(true);
+            case 5: radio5.setSelected(true);
+        }
+    }
+
+    private void addRow(courseReview newReview) {
         reviewsData.add(newReview);
     }
     /*@FXML
@@ -134,8 +153,8 @@ public class CourseReviewsSceneController {
         courseDetails.setText(course.getSubjectMnemonic() + " " + course.getCourseNumber() + ": " + course.getCourseTitle());
         averageRating.setText("Average Rating: " + course.getAverageReviewRating());
     }
-
-    public void goToCourseSearches(ActionEvent actionEvent) {
+    @FXML
+    public void goToCourseReviewPage() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("course-search-scene.fxml"));
             var scene = new Scene(loader.load());
