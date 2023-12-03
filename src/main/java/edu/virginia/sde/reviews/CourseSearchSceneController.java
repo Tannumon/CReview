@@ -46,6 +46,8 @@ public class CourseSearchSceneController {
     @FXML
     private TableView<Course> courseTable;
     ObservableList<Course> data = FXCollections.observableArrayList();
+
+
     public void initialize() {
         try {
             driver.connect();

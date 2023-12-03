@@ -120,6 +120,8 @@ public class DatabaseDriver {
         }
     }
 
+
+
     public String getUserPassword(String username) throws SQLException {
         try{
             String getUserID = "select * from Users where Username LIKE '"+username+"'";

@@ -20,7 +20,7 @@ import java.sql.SQLException;
 
 public class LoginScreenController {
     @FXML
-    private TextField usernameField;
+    public TextField usernameField;
 
     @FXML
     private Label errorMessage;
@@ -28,6 +28,12 @@ public class LoginScreenController {
     @FXML
     private PasswordField passwordField;
     DatabaseDriver driver = new DatabaseDriver("course_review_system.sqlite3");
+
+
+    public String getUsernameField(){
+        String theUser = usernameField.getText();
+        return theUser;
+    }
 
     @FXML
     private void login(ActionEvent event) throws IOException {
