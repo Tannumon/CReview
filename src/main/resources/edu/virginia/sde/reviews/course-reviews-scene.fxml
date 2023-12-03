@@ -12,6 +12,8 @@
             prefHeight="700.0" prefWidth="600.0">
     <VBox layoutX = "0" layoutY ="0" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
         <children>
+            <Label fx:id="courseDetails"/>
+            <Label/>
             <TableView fx:id="courseTable" layoutX="0.0" layoutY="0.0" prefHeight="300.0" prefWidth="450.0"></TableView>
             <Label text= "Your Review"/>
             <HBox layoutX = "0" layoutY ="0" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
