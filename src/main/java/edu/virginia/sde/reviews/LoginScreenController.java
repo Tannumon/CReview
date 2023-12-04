@@ -29,6 +29,7 @@ public class LoginScreenController {
     private PasswordField passwordField;
 
     private Stage stage;
+    private String username;
     DatabaseDriver driver = new DatabaseDriver("course_review_system.sqlite3");
     User user;
 
@@ -40,6 +41,10 @@ public class LoginScreenController {
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
     @FXML
     private void login(ActionEvent event) throws IOException {
@@ -58,7 +63,7 @@ public class LoginScreenController {
             else{
                 if(password.equals(driver.getUserPassword(username))){
 
-                    UserSingleton.getInstance().setUser(user);
+                    //UserSingleton.getInstance().setUser(user);
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("course-search-scene.fxml"));
                     var scene = new Scene(loader.load());
                     var controller = (CourseSearchSceneController)loader.getController();

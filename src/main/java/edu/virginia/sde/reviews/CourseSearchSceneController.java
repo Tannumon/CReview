@@ -260,8 +260,8 @@ public class CourseSearchSceneController {
     }
 
     @FXML
-    private void moveToNextScreen(ActionEvent event) throws IOException {
-        try {
+    private void moveToNextScreen(ActionEvent event) throws IOException, SQLException {
+        /*try {
             driver.connect();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("my-reviews.fxml"));
             Parent thirdPage = loader.load();
@@ -271,6 +271,20 @@ public class CourseSearchSceneController {
             driver.disconnect();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }*/
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("my-reviews.fxml"));
+            var scene = new Scene(loader.load());
+            var controller = (MyReviewsController)loader.getController();
+            controller.setUsername(username);
+            controller.populateTable();
+            controller.setStage(stage);
+            System.out.println("search controller: " + username);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e){
+            //e.printStackTrace();
+            //errorText.setText("Something went wrong! Please try again!");
         }
     }
     public void setStage(Stage stage) {
@@ -296,4 +310,18 @@ public class CourseSearchSceneController {
     }
 
 
+    public void logout(ActionEvent actionEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("login-screen.fxml"));
+            var scene = new Scene(loader.load());
+            var controller = (LoginScreenController)loader.getController();
+            controller.setStage(stage);
+            controller.setUsername("");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e){
+            //e.printStackTrace();
+            //errorText.setText("Something went wrong! Please try again!");
+        }
+    }
 }

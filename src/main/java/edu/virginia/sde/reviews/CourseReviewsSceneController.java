@@ -151,6 +151,7 @@ public class CourseReviewsSceneController {
             driver.commit();
             updateMyCourseReviewsPage();
             driver.disconnect();
+            errorText.setText("");
         } catch (SQLException e) {
             e.printStackTrace();
             errorText.setText("Something went wrong! Please try again!");
@@ -158,18 +159,23 @@ public class CourseReviewsSceneController {
     }
     @FXML
     private void deleteReview() throws SQLException {
-        driver.connect();
-        int userID = driver.getUserIDbyUsername(username);
-        driver.deleteReviewIfPresent(course,userID);
-        updateReviewsDatabase();
-        radio1.setSelected(false);
-        radio2.setSelected(false);
-        radio3.setSelected(false);
-        radio4.setSelected(false);
-        radio5.setSelected(false);
-        myReview.setText("");
-        driver.commit();
-        driver.disconnect();
+        try {
+            driver.connect();
+            int userID = driver.getUserIDbyUsername(username);
+            driver.deleteReviewIfPresent(course,userID);
+            updateReviewsDatabase();
+            radio1.setSelected(false);
+            radio2.setSelected(false);
+            radio3.setSelected(false);
+            radio4.setSelected(false);
+            radio5.setSelected(false);
+            myReview.setText("");
+            driver.commit();
+            driver.disconnect();
+        }
+        catch (SQLException e) {
+
+        }
     }
 
     private void updateMyCourseReviewsPage() throws SQLException {
@@ -186,15 +192,20 @@ public class CourseReviewsSceneController {
     }
 
     private void updateReviewsDatabase() throws SQLException {
-        ArrayList<Review> allCourseReviews = driver.getCourseReviews(course);
-        for (Review r: allCourseReviews) {
-            System.out.println(r.getComment());
+        try {
+            ArrayList<Review> allCourseReviews = driver.getCourseReviews(course);
+            for (Review r: allCourseReviews) {
+                System.out.println(r.getComment());
+            }
+            reviewsData.clear();
+            for (Review r: allCourseReviews) {
+                reviewsData.add(new courseReview(r.getRating(), r.getComment(), r.getTimestamp().toString()));
+            }
+            courseTable.setItems(reviewsData);
         }
-        reviewsData.clear();
-        for (Review r: allCourseReviews) {
-            reviewsData.add(new courseReview(r.getRating(), r.getComment(), r.getTimestamp().toString()));
+        catch (SQLException e){
+
         }
-        courseTable.setItems(reviewsData);
     }
 
     public void setCourse(Course course) throws SQLException {
@@ -207,7 +218,6 @@ public class CourseReviewsSceneController {
             driver.disconnect();
         }
         catch(SQLException e){
-
         }
     }
     @FXML

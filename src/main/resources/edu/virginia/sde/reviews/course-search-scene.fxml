@@ -77,6 +77,7 @@
     </HBox>
 
     <VBox layoutX = "250" layoutY ="575">
+        <Button text="Log Out" onAction="#logout"/>
         <Label layoutX = "600" layoutY ="550"  fx:id="addClassErrorMessage"/>
         <Label layoutX = "600" layoutY ="575"  fx:id="addClassSubjectErrorMessage"/>
         <Label layoutX = "600" layoutY ="600"  fx:id="addClassNumberErrorMessage"/>
