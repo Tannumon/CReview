@@ -38,10 +38,12 @@
 
     <HBox layoutX = "675" layoutY ="0" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
         <Button text = "Search" onAction="#searchResult"/>
+        <HBox prefHeight = "100.0" prefWidth = "30"/>
+        <Button text="Log Out" onAction="#logout"/>
     </HBox>
 
     <!-- TableView, testing with the username and password and not with the courses which is what it should be-->
-    <AnchorPane layoutX ="300" layoutY ="150" id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="293.0" xmlns:fx="http://javafx.com/fxml">
+    <AnchorPane layoutX ="100" layoutY ="80" id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="293.0" xmlns:fx="http://javafx.com/fxml">
         <children>
             <TableView fx:id="courseTable" layoutX="0.0" layoutY="0.0" prefHeight="300.0" prefWidth="450.0">
             </TableView>
@@ -54,11 +56,12 @@
         <Label text= "Mnemonic: "/>
         <HBox  layoutX = "5" layoutY ="0" prefHeight = "100.0" prefWidth = "10"> </HBox>
         <TextField fx:id="addSubject"/>
+        <HBox prefHeight = "100.0" prefWidth = "20"> </HBox>
     </HBox>
 
     <HBox layoutX = "225" layoutY ="500" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
         <Label text = "Number: "/>
-        <HBox  layoutX = "30" layoutY ="0" prefHeight = "100.0" prefWidth = "14"> </HBox>
+        <HBox  layoutX = "35" layoutY ="0" prefHeight = "100.0" prefWidth = "14"> </HBox>
         <TextField fx:id="addNumber"/>
     </HBox>
 
@@ -72,12 +75,12 @@
         <Button fx:id="createClassButton" onAction="#createCourse"> Add Class </Button>
     </HBox>
 
-    <HBox layoutX = "900" layoutY ="500" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
-        <Button onAction="#moveToNextScreen"> My Reviews </Button>
+    <HBox layoutX = "750" layoutY ="500" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
+        <Button fx:id="myReviewsButtons" onAction="#moveToNextScreen"> My Reviews </Button>
     </HBox>
 
     <VBox layoutX = "250" layoutY ="575">
-        <Button text="Log Out" onAction="#logout"/>
+
         <Label layoutX = "600" layoutY ="550"  fx:id="addClassErrorMessage"/>
         <Label layoutX = "600" layoutY ="575"  fx:id="addClassSubjectErrorMessage"/>
         <Label layoutX = "600" layoutY ="600"  fx:id="addClassNumberErrorMessage"/>

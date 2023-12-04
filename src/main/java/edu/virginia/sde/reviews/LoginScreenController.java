@@ -69,6 +69,8 @@ public class LoginScreenController {
                     var controller = (CourseSearchSceneController)loader.getController();
                     controller.setStage(stage);
                     stage.setScene(scene);
+                    stage.setX(20.0);
+                    stage.setY(20.0);
                     controller.setUsername(username);
                     //Parent secondPage = loader.load();
                     //Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();

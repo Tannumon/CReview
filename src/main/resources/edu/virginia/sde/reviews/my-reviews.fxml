@@ -20,11 +20,11 @@
     </HBox>
 
 
-    <VBox layoutX = "150" layoutY ="0" prefHeight = "100.0" prefWidth = "450.0" alignment = "CENTER">
+    <VBox layoutX = "150" layoutY ="10" prefHeight = "500.0" prefWidth = "450.0" alignment = "TOP_CENTER">
         <Text text= "My Reviews" style="-fx-font-size: 16;"/>
 
         <children>
-            <TableView fx:id="myReviewsTable" layoutX="0.0" layoutY="0.0" prefHeight="300.0" prefWidth="450.0" >
+            <TableView fx:id="myReviewsTable" layoutX="0.0" layoutY="20" prefHeight="300.0" prefWidth="450.0" >
             </TableView>
         </children>
 
