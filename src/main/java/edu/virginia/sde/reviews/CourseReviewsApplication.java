@@ -24,6 +24,8 @@ public class CourseReviewsApplication extends Application {
         stage.setTitle("Login Scene");
         stage.setScene(scene);
         stage.show();
+        var controller = (LoginScreenController) fxmlLoader.getController();
+        controller.setStage(stage);
         DatabaseDriver driver = new DatabaseDriver("course_review_system.sqlite3");
         driver.connect();
         driver.createTables();
