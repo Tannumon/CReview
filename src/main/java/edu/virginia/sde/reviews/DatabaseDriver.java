@@ -363,6 +363,28 @@ public class DatabaseDriver {
         }
     }
 
+    public Course getCourseFromID(int courseID) throws SQLException {
+        try{
+            String getCourse = "select * from Courses WHERE ID = " + courseID + ";";
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(getCourse);
+
+            if(rs.next() == false)
+                return null;
+            int courseNum = rs.getInt("CourseNumber");
+            String subj = rs.getString("SubjectMnemonic");
+            double rating = rs.getDouble("AverageRating");
+            String title = rs.getString("CourseTitle");
+            Course c = new Course(subj, courseNum, title, rating);
+
+            return c;
+        }
+        catch (SQLException e){
+            rollback();
+            throw e;
+        }
+    }
+
     public void clearTables() throws SQLException {
         String deleteUsers = "delete from Users";
         String deleteCourses = "delete from Courses";
