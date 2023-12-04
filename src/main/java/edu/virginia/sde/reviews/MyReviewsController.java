@@ -53,7 +53,7 @@ public class MyReviewsController {
             myReviewsTable.getColumns().add(reviewTime);
 
             //Populate dat
-            ArrayList<Review> allReviews = driver.getUserReviews(driver.getUserPassword(user.getUsername()));
+            ArrayList<Review> allReviews = driver.getUserReviews(UserSingleton.getInstance().getUser().getUsername());
             for(Review review: allReviews) {
                 data.add(review);
             }

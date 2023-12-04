@@ -11,9 +11,14 @@
             fx:controller="edu.virginia.sde.reviews.LoginScreenController"
             prefHeight="90.0" prefWidth="400.0" >
     <children>
-        <VBox layoutX="0" layoutY="0" prefHeight="30.0" prefWidth="21.0" alignment="CENTER"/>
-        <VBox layoutX="0" layoutY="0" prefHeight="100.0" prefWidth="400.0" alignment="CENTER">
+
+        <VBox layoutX="0" layoutY="0" prefHeight="50.0" prefWidth="400.0" alignment="CENTER">
             <children>
+                <HBox spacing="30" alignment="CENTER_RIGHT" >
+                    <children>
+                        <Button fx:id="closeButton" onAction="#killProgram" text="Close" />
+                    </children>
+                </HBox>
                 <Label text= "Welcome to the Course Review Application" />
                 <Label text = "Please Login Below" />
             </children>

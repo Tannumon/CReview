@@ -103,5 +103,15 @@ public class LoginScreenController {
         } catch (SQLException e) {
             errorMessage.setText("Something went wrong. Please try again!");
         }
+
+
+    }
+
+
+
+
+    @FXML
+    private void killProgram(ActionEvent event) throws IOException{
+        System.exit(0);
     }
 }
