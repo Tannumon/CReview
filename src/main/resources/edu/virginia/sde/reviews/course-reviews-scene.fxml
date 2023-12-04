@@ -10,12 +10,12 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="edu.virginia.sde.reviews.CourseReviewsSceneController"
             prefHeight="700.0" prefWidth="600.0">
-    <VBox layoutX = "0" layoutY ="0" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
+    <VBox layoutX = "0" layoutY ="0" prefHeight = "300.0" prefWidth = "300.0" alignment = "CENTER">
         <children>
             <Label fx:id="courseDetails"/>
             <Label fx:id="averageRating"/>
             <Label/>
-            <TableView fx:id="courseTable" layoutX="0.0" layoutY="0.0" prefHeight="300.0" prefWidth="450.0"></TableView>
+            <TableView fx:id="courseTable" layoutX="0.0" layoutY="0.0" prefHeight="500.0" prefWidth="450.0"></TableView>
             <Label text= "Your Review"/>
             <HBox layoutX = "0" layoutY ="0" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
                 <HBox layoutX = "0" layoutY ="0" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
@@ -52,7 +52,7 @@
                 </VBox>
                 <VBox layoutX = "0" layoutY ="0" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
                     <Button text = "Save" onAction="#saveReview"/>
-                    <Button text = "Delete"/>
+                    <Button text = "Delete" onAction = "#deleteReview"/>
                 </VBox>
             </HBox>
             <Button text = "Back" onAction="#goToCourseReviewPage"/>
