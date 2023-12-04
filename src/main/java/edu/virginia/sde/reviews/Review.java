@@ -31,4 +31,13 @@ public class Review {
     public String getComment(){
         return comment;
     }
+
+    public String getsubjectMnemonic(){  // STUB HAVE TO WRITE THIS CORRECTLY
+        return ("hellow");
+    }
+
+    public int getCourseNumber(){ // STUB HAVE TO WRITE THIS CORRECTLY
+        return 1;
+
+    }
 }
