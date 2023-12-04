@@ -79,7 +79,7 @@ public class CourseSearchSceneController {
             courseMnem.setCellValueFactory(new PropertyValueFactory<>("subjectMnemonic"));
             courseInt.setCellValueFactory(new PropertyValueFactory<>("courseNumber"));
             courseTit.setCellValueFactory(new PropertyValueFactory<>("courseTitle"));
-            courseAvgRat.setCellValueFactory(new PropertyValueFactory<>("averageReviewRating"));
+            courseAvgRat.setCellValueFactory(new PropertyValueFactory<>("averageReviewRatingString"));
 
             // Add columns to the TableView
             courseTable.getColumns().add(courseMnem);

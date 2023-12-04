@@ -176,7 +176,8 @@ public class CourseReviewsSceneController {
         try{
             //driver.connect();
             updateReviewsDatabase();
-            averageRating.setText(""+(double)driver.getCourseAverageRating(course));
+            String formattedString = String.format("%.2f", driver.getCourseAverageRating(course));
+            averageRating.setText(formattedString);
         }
         catch(SQLException e){
 

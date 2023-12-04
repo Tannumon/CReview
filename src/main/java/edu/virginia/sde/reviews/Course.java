@@ -34,5 +34,10 @@ public class Course {
         return averageReviewRating;
     }
 
+    public String getAverageReviewRatingString() {
+        String formattedString = String.format("%.2f", averageReviewRating);
+        return formattedString;
+    }
+
 
 }
