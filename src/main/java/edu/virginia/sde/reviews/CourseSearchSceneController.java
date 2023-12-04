@@ -67,7 +67,11 @@ public class CourseSearchSceneController {
             courseTable.setRowFactory(tv -> {
                 TableRow<Course> row = new TableRow<>();
                 row.setOnMouseClicked(e -> {
-                    goToCourseReviewPage(row);
+                    try {
+                        goToCourseReviewPage(row);
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 });
                 return row;
             });
@@ -276,13 +280,13 @@ public class CourseSearchSceneController {
     public void setUsername(String username) {
         this.username = username;
     }
-    private void goToCourseReviewPage(TableRow<Course> row) {
+    private void goToCourseReviewPage(TableRow<Course> row) throws SQLException {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("course-reviews-scene.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("my-reviews.fxml"));
             var scene = new Scene(loader.load());
             var controller = (CourseReviewsSceneController)loader.getController();
             controller.setStage(stage);
-            controller.setCourse((Course)row.getItem());
+            controller.setCourse(row.getItem());
             controller.setUsername(username);
             stage.setScene(scene);
             stage.show();
