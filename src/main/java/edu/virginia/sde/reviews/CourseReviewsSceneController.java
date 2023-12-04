@@ -90,12 +90,18 @@ public class CourseReviewsSceneController {
     private void populateFields(TableRow<courseReview> row) {
         myReview.setText(row.getItem().getComment());
         int rating = row.getItem().getScore();
+        System.out.println(rating);
         switch (rating) {
             case 1: radio1.setSelected(true);
+            break;
             case 2: radio2.setSelected(true);
+            break;
             case 3: radio3.setSelected(true);
+            break;
             case 4: radio4.setSelected(true);
+            break;
             case 5: radio5.setSelected(true);
+            break;
         }
     }
 
@@ -135,7 +141,11 @@ public class CourseReviewsSceneController {
             driver.connect();
             //String username = UserSingleton.getInstance().getUser().getUsername();
             int userID = driver.getUserIDbyUsername(username);
-            Review rev = new Review(rating, timestamp.toString(), comment, course.getCourseNumber(), userID);
+            int courseID = driver.getCourseID(course);
+            Review rev = new Review(rating, timestamp.toString(), comment, courseID, userID);
+            System.out.println(course.getSubjectMnemonic() + course.getCourseTitle());
+            System.out.println("" + courseID);
+            System.out.println("" + userID);
             driver.deleteReviewIfPresent(course, userID);
             driver.addReview(rev, username, course);
             driver.commit();
@@ -152,13 +162,26 @@ public class CourseReviewsSceneController {
         int userID = driver.getUserIDbyUsername(username);
         driver.deleteReviewIfPresent(course,userID);
         updateReviewsDatabase();
+        radio1.setSelected(false);
+        radio2.setSelected(false);
+        radio3.setSelected(false);
+        radio4.setSelected(false);
+        radio5.setSelected(false);
+        myReview.setText("");
         driver.commit();
         driver.disconnect();
     }
 
     private void updateMyCourseReviewsPage() throws SQLException {
-        updateReviewsDatabase();
-        averageRating.setText(""+course.getAverageReviewRating());
+        try{
+            //driver.connect();
+            updateReviewsDatabase();
+            averageRating.setText(""+(double)driver.getCourseAverageRating(course));
+        }
+        catch(SQLException e){
+
+        }
+
     }
 
     private void updateReviewsDatabase() throws SQLException {
@@ -174,12 +197,17 @@ public class CourseReviewsSceneController {
     }
 
     public void setCourse(Course course) throws SQLException {
-        this.course = course;
-        courseDetails.setText(course.getSubjectMnemonic() + " " + course.getCourseNumber() + ": " + course.getCourseTitle());
-        averageRating.setText("Average Rating: " + course.getAverageReviewRating());
-        driver.connect();
-        updateMyCourseReviewsPage();
-        driver.disconnect();
+        try{
+            driver.connect();
+            this.course = course;
+            courseDetails.setText(course.getSubjectMnemonic() + " " + course.getCourseNumber() + ": " + course.getCourseTitle());
+            averageRating.setText("Average Rating: " + driver.getCourseAverageRating(course));
+            updateMyCourseReviewsPage();
+            driver.disconnect();
+        }
+        catch(SQLException e){
+
+        }
     }
     @FXML
     public void goToCourseReviewPage() {

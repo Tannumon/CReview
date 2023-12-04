@@ -263,7 +263,7 @@ public class CourseSearchSceneController {
     private void moveToNextScreen(ActionEvent event) throws IOException {
         try {
             driver.connect();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("course-reviews-scene.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("my-reviews.fxml"));
             Parent thirdPage = loader.load();
             Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(thirdPage));
@@ -282,7 +282,7 @@ public class CourseSearchSceneController {
     }
     private void goToCourseReviewPage(TableRow<Course> row) throws SQLException {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("my-reviews.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("course-reviews-scene.fxml"));
             var scene = new Scene(loader.load());
             var controller = (CourseReviewsSceneController)loader.getController();
             controller.setStage(stage);
@@ -291,7 +291,7 @@ public class CourseSearchSceneController {
             stage.setScene(scene);
             stage.show();
         } catch (IOException e){
-            throw new RuntimeException(e);
+            //throw new RuntimeException(e);
         }
     }
 
