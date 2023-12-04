@@ -12,6 +12,14 @@
             fx:controller="edu.virginia.sde.reviews.MyReviewsController"
             prefHeight="400.0" prefWidth="800.0">
 
+
+    <HBox spacing="30" alignment="CENTER_RIGHT" >
+        <children>
+            <Button fx:id="backButton" onAction="#goBack" text="Back" />
+        </children>
+    </HBox>
+
+
     <VBox layoutX = "150" layoutY ="0" prefHeight = "100.0" prefWidth = "450.0" alignment = "CENTER">
         <Text text= "My Reviews" style="-fx-font-size: 16;"/>
 
