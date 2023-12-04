@@ -1,8 +1,10 @@
 package edu.virginia.sde.reviews;
 
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -11,7 +13,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
@@ -45,6 +49,9 @@ public class CourseSearchSceneController {
     private ObservableList<Course> courseData = FXCollections.observableArrayList();
     @FXML
     private TableView<Course> courseTable;
+
+    private Stage stage;
+    private String username;
     ObservableList<Course> data = FXCollections.observableArrayList();
 
 
@@ -56,6 +63,18 @@ public class CourseSearchSceneController {
             TableColumn<Course, Integer> courseInt = new TableColumn<>("Number");
             TableColumn<Course, String> courseTit = new TableColumn<>("Title");
             TableColumn<Course, Double> courseAvgRat = new TableColumn<>("Average Rating");
+
+            courseTable.setRowFactory(tv -> {
+                TableRow<Course> row = new TableRow<>();
+                row.setOnMouseClicked(e -> {
+                    try {
+                        goToCourseReviewPage(row);
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                });
+                return row;
+            });
 
             courseMnem.setCellValueFactory(new PropertyValueFactory<>("subjectMnemonic"));
             courseInt.setCellValueFactory(new PropertyValueFactory<>("courseNumber"));
@@ -236,7 +255,7 @@ public class CourseSearchSceneController {
             }
             driver.disconnect();
         } catch (SQLException ex) {
-        throw new RuntimeException(ex);
+            throw new RuntimeException(ex);
         }
     }
 
@@ -244,7 +263,7 @@ public class CourseSearchSceneController {
     private void moveToNextScreen(ActionEvent event) throws IOException {
         try {
             driver.connect();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("my-reviews.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("course-reviews-scene.fxml"));
             Parent thirdPage = loader.load();
             Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(thirdPage));
@@ -254,4 +273,27 @@ public class CourseSearchSceneController {
             throw new RuntimeException(e);
         }
     }
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+    private void goToCourseReviewPage(TableRow<Course> row) throws SQLException {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("my-reviews.fxml"));
+            var scene = new Scene(loader.load());
+            var controller = (CourseReviewsSceneController)loader.getController();
+            controller.setStage(stage);
+            controller.setCourse(row.getItem());
+            controller.setUsername(username);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+
 }

@@ -385,6 +385,41 @@ public class DatabaseDriver {
         }
     }
 
+    public void deleteReviewIfPresent(Course course, int userID) throws SQLException {
+        try{
+            int courseID = getCourseID(course);
+            if (hasReviewCourseUser(course, userID)) {
+                String deleteReview = "delete from Reviews where UserID = " + userID +
+                        " AND CourseID = " + courseID + ";";
+                PreparedStatement preparedStatement = connection.prepareStatement(deleteReview);
+                preparedStatement.executeUpdate();
+                preparedStatement.close();
+            }
+        }
+        catch (SQLException e){
+            rollback();
+            throw e;
+        }
+    }
+    public boolean hasReviewCourseUser(Course course, int userID) throws SQLException {
+        try{
+            int courseID = getCourseID(course);
+            String getReview = "select * from Reviews where UserID = " + userID +
+                    " AND CourseID = " + courseID + ";";
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(getReview);
+            if(rs.next() == false)
+                return false;
+            else {
+                return true;
+            }
+        }
+        catch (SQLException e){
+            rollback();
+            throw e;
+        }
+    }
+
     public void clearTables() throws SQLException {
         String deleteUsers = "delete from Users";
         String deleteCourses = "delete from Courses";
