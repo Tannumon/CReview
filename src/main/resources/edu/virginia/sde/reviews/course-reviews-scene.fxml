@@ -51,11 +51,12 @@
                     <TextArea fx:id="myReview" prefHeight = "100.0" prefWidth = "300.0"/>
                 </VBox>
                 <VBox layoutX = "0" layoutY ="0" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
-                    <Button text = "Save"/>
+                    <Button text = "Save" onAction="#saveReview"/>
                     <Button text = "Delete"/>
                 </VBox>
             </HBox>
             <Button text = "Back" onAction="#goToCourseReviewPage"/>
+            <Label layoutX = "600" layoutY ="550"  fx:id="errorText"/>
         </children>
     </VBox>
 </AnchorPane>
