@@ -139,7 +139,7 @@ public class DatabaseDriver {
     public int getCourseID(Course course) throws SQLException {
         try{
             String getUserID = "select * from Courses where SubjectMnemonic LIKE '"+course.getSubjectMnemonic()+"' " +
-                    "AND CourseTitle LIKE '"+course.getSubjectMnemonic()+"' " +
+                    "AND CourseTitle LIKE '"+course.getCourseTitle()+"' " +
                     "AND CourseNumber = " + course.getCourseNumber() + ";";
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery(getUserID);

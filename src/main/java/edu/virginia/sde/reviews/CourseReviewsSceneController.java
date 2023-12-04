@@ -82,6 +82,7 @@ public class CourseReviewsSceneController {
             reviewsData = FXCollections.observableArrayList(courseTable.getItems());
         } catch (Exception e) {
             e.printStackTrace();
+            errorText.setText("Something went wrong! Please try again!");
         }
     }
 
@@ -116,10 +117,10 @@ public class CourseReviewsSceneController {
         else if (radio3.isSelected()) {
             rating = 3;
         }
-        else if (radio3.isSelected()) {
+        else if (radio4.isSelected()) {
             rating = 4;
         }
-        else if (radio3.isSelected()) {
+        else if (radio5.isSelected()) {
             rating = 5;
         }
         else {
@@ -136,7 +137,8 @@ public class CourseReviewsSceneController {
             driver.addReview(rev, username, course);
             driver.disconnect();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            errorText.setText("Something went wrong! Please try again!");
         }
     }
     /**@FXML
@@ -173,7 +175,8 @@ public class CourseReviewsSceneController {
             stage.setScene(scene);
             stage.show();
         } catch (IOException e){
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            errorText.setText("Something went wrong! Please try again!");
         }
     }
 
