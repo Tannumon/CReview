@@ -135,6 +135,7 @@ public class CourseReviewsSceneController {
             String username = UserSingleton.getInstance().getUser().getUsername();
             Review rev = new Review(rating, timestamp.toString(), comment, course.getCourseNumber(), driver.getUserIDbyUsername(username));
             driver.addReview(rev, username, course);
+            driver.commit();
             driver.disconnect();
         } catch (SQLException e) {
             e.printStackTrace();
