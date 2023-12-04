@@ -51,6 +51,7 @@ public class CourseSearchSceneController {
     private TableView<Course> courseTable;
 
     private Stage stage;
+    private String username;
     ObservableList<Course> data = FXCollections.observableArrayList();
 
 
@@ -271,6 +272,10 @@ public class CourseSearchSceneController {
     public void setStage(Stage stage) {
         this.stage = stage;
     }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
     private void goToCourseReviewPage(TableRow<Course> row) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("course-reviews-scene.fxml"));
@@ -278,6 +283,7 @@ public class CourseSearchSceneController {
             var controller = (CourseReviewsSceneController)loader.getController();
             controller.setStage(stage);
             controller.setCourse((Course)row.getItem());
+            controller.setUsername(username);
             stage.setScene(scene);
             stage.show();
         } catch (IOException e){

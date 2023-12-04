@@ -37,6 +37,8 @@ public class CourseReviewsSceneController {
     private Label courseDetails;
     @FXML
     private Label averageRating;
+    @FXML
+    private Label errorText;
 
     private int rating;
 
@@ -47,6 +49,8 @@ public class CourseReviewsSceneController {
     private ObservableList<courseReview> reviewsData;
 
     DatabaseDriver driver = new DatabaseDriver("course_review_system.sqlite3");
+    private String username;
+
     public void initialize() {
         try {
             // Create columns
@@ -96,7 +100,7 @@ public class CourseReviewsSceneController {
     private void addRow(courseReview newReview) {
         reviewsData.add(newReview);
     }
-    /*@FXML
+    @FXML
     private void saveReview() throws IOException {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
@@ -118,19 +122,24 @@ public class CourseReviewsSceneController {
         else if (radio3.isSelected()) {
             rating = 5;
         }
+        else {
+            errorText.setText("Please choose a rating before saving the review");
+            return;
+        }
 
         //add functionality for if nothing is selected and button is pressed
 
         try {
+            driver.connect();
             String username = UserSingleton.getInstance().getUser().getUsername();
-            Review rev = null;
-            rev = new Review(rating, timestamp.toString(), comment, course.getCourseNumber(), driver.getUserIDbyUsername(username));
+            Review rev = new Review(rating, timestamp.toString(), comment, course.getCourseNumber(), driver.getUserIDbyUsername(username));
             driver.addReview(rev, username, course);
+            driver.disconnect();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
-    @FXML
+    /**@FXML
     private void deleteReview() throws SQLException {
         if ()
         updateReviewsDatabase();
@@ -160,11 +169,16 @@ public class CourseReviewsSceneController {
             var scene = new Scene(loader.load());
             var controller = (CourseSearchSceneController)loader.getController();
             controller.setStage(stage);
+            controller.setUsername(username);
             stage.setScene(scene);
             stage.show();
         } catch (IOException e){
             throw new RuntimeException(e);
         }
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public record courseReview(int score, String comment, Timestamp date) {
