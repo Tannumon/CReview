@@ -3,7 +3,6 @@ package edu.virginia.sde.reviews;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class DatabaseDriver {
     private final String sqliteFilename;
@@ -176,7 +175,40 @@ public class DatabaseDriver {
             throw e;
         }
     }
-
+    public void deleteReviewIfPresent(Course course, int userID) throws SQLException {
+        try{
+            int courseID = getCourseID(course);
+            if (hasReviewCourseUser(course, userID)) {
+                String deleteReview = "delete from Reviews where UserID = " + userID +
+                        " AND CourseID = " + courseID + ";";
+                PreparedStatement preparedStatement = connection.prepareStatement(deleteReview);
+                preparedStatement.executeUpdate();
+                preparedStatement.close();
+            }
+        }
+        catch (SQLException e){
+            rollback();
+            throw e;
+        }
+    }
+    public boolean hasReviewCourseUser(Course course, int userID) throws SQLException {
+        try{
+            int courseID = getCourseID(course);
+            String getReview = "select * from Reviews where UserID = " + userID +
+                    " AND CourseID = " + courseID + ";";
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(getReview);
+            if(rs.next() == false)
+                return false;
+            else {
+                return true;
+            }
+        }
+        catch (SQLException e){
+            rollback();
+            throw e;
+        }
+    }
     public void updateAverageCourseRating(Course course) throws SQLException {
         try{
             ArrayList<Review> courseReviews = getCourseReviews(course);
