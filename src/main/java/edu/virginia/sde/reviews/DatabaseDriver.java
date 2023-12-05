@@ -154,6 +154,21 @@ public class DatabaseDriver {
         }
     }
 
+    public void resetCourseAverageRating(Course course) throws SQLException {
+        try{
+            String resetAvgRating = "update Courses set AverageRating = 0.0 where SubjectMnemonic LIKE '"+course.getSubjectMnemonic()+"' " +
+                    "AND CourseTitle LIKE '"+course.getCourseTitle()+"' " +
+                    "AND CourseNumber = " + course.getCourseNumber() + ";";
+            PreparedStatement preparedStatement = connection.prepareStatement(resetAvgRating);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        }
+        catch (SQLException e){
+            rollback();
+            throw e;
+        }
+    }
+
     public double getCourseAverageRating(Course course) throws SQLException {
         try{
             String getAverageRating = "select * from Courses where SubjectMnemonic LIKE '"+course.getSubjectMnemonic()+"' " +

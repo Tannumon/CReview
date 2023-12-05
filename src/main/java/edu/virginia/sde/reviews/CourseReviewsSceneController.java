@@ -164,6 +164,16 @@ public class CourseReviewsSceneController {
             int userID = driver.getUserIDbyUsername(username);
             driver.deleteReviewIfPresent(course,userID);
             updateReviewsDatabase();
+            if(driver.getCourseReviews(course).size() == 0){
+                //driver.updateAverageCourseRating(course);
+                driver.resetCourseAverageRating(course);
+                averageRating.setText("Average Rating: ");
+            }
+
+            else{
+                driver.updateAverageCourseRating(course);
+                updateMyCourseReviewsPage();
+            }
             radio1.setSelected(false);
             radio2.setSelected(false);
             radio3.setSelected(false);
@@ -183,7 +193,10 @@ public class CourseReviewsSceneController {
             //driver.connect();
             updateReviewsDatabase();
             String formattedString = String.format("%.2f", driver.getCourseAverageRating(course));
-            averageRating.setText(formattedString);
+            if(driver.getCourseReviews(course).size() == 0)
+                averageRating.setText("Average Rating: ");
+            else
+                averageRating.setText("Average Rating: " + formattedString);
         }
         catch(SQLException e){
 
@@ -213,7 +226,10 @@ public class CourseReviewsSceneController {
             driver.connect();
             this.course = course;
             courseDetails.setText(course.getSubjectMnemonic() + " " + course.getCourseNumber() + ": " + course.getCourseTitle());
-            averageRating.setText("Average Rating: " + driver.getCourseAverageRating(course));
+            if(driver.getCourseReviews(course).size() == 0)
+                averageRating.setText("Average Rating: ");
+            else
+                averageRating.setText("Average Rating: " + driver.getCourseAverageRating(course));
             updateMyCourseReviewsPage();
             driver.disconnect();
         }
