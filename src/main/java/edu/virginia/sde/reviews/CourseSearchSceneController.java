@@ -12,6 +12,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -96,6 +100,26 @@ public class CourseSearchSceneController {
             courseTable.setItems(data);
             driver.commit();
             driver.disconnect();
+
+            /*ColumnConstraints col1Constraints = new ColumnConstraints();
+            col1Constraints.setHgrow(Priority.ALWAYS);
+
+            ColumnConstraints col2Constraints = new ColumnConstraints();
+            col2Constraints.setHgrow(Priority.ALWAYS);
+
+            ColumnConstraints col3Constraints = new ColumnConstraints();
+            col3Constraints.setHgrow(Priority.ALWAYS);
+
+            ColumnConstraints col4Constraints = new ColumnConstraints();
+            col4Constraints.setHgrow(Priority.ALWAYS);
+
+            // Create a GridPane and add the ColumnConstraints
+            GridPane gridPane = new GridPane();
+            gridPane.getColumnConstraints().addAll(col1Constraints, col2Constraints, col3Constraints, col4Constraints);
+
+            // Create a VBox to hold the TableView and GridPane
+            VBox vBox = new VBox(courseTable, gridPane);*/
+
 
         } catch (SQLException e) {
             e.printStackTrace();

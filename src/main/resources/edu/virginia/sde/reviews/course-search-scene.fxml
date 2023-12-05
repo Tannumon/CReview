@@ -43,13 +43,9 @@
     </HBox>
 
     <!-- TableView, testing with the username and password and not with the courses which is what it should be-->
-    <AnchorPane layoutX ="10" layoutY ="80" id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="300" xmlns:fx="http://javafx.com/fxml">
-        <children>
-            <TableView fx:id="courseTable" layoutX="0.0" layoutY="0.0" prefHeight="300.0" prefWidth="600">
-            </TableView>
-        </children>
-    </AnchorPane>
-
+    <VBox layoutX ="10" layoutY ="80" alignment="CENTER">
+        <TableView fx:id="courseTable" layoutX="0" layoutY="0" prefHeight="300.0" prefWidth="600" ></TableView>
+    </VBox>
 
     <!-- Adding a course-->
     <HBox layoutX = "0" layoutY ="500" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
