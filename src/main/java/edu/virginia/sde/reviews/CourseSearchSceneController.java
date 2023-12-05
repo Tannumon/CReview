@@ -292,17 +292,6 @@ public class CourseSearchSceneController {
 
     @FXML
     private void moveToNextScreen(ActionEvent event) throws IOException, SQLException {
-        /*try {
-            driver.connect();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("my-reviews.fxml"));
-            Parent thirdPage = loader.load();
-            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(thirdPage));
-            stage.show();
-            driver.disconnect();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }*/
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("my-reviews.fxml"));
             var scene = new Scene(loader.load());
