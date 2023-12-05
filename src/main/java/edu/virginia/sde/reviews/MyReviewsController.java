@@ -103,8 +103,8 @@ public class MyReviewsController {
             controller.setStage(stage);
             controller.setUsername(username);
             stage.setScene(scene);
-            stage.setX(20.0);
-            stage.setY(20.0);
+            stage.setX(50.0);
+            stage.setY(50.0);
             stage.show();
         } catch (IOException e){
             //e.printStackTrace();

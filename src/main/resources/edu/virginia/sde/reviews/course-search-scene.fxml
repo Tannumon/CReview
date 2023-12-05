@@ -67,15 +67,13 @@
 
     <HBox layoutX = "450" layoutY ="500" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
         <Label text = "Title: "/>
-        <HBox  layoutX = "30" layoutY ="0" prefHeight = "100.0" prefWidth = "14"> </HBox>
+        <HBox layoutX = "30" layoutY ="0" prefHeight = "100.0" prefWidth = "14"> </HBox>
         <TextField fx:id="addTitle"/>
     </HBox>
 
     <HBox layoutX = "650" layoutY ="500" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
-        <Button fx:id="createClassButton" onAction="#createCourse"> Add Class </Button>
-    </HBox>
-
-    <HBox layoutX = "750" layoutY ="500" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
+        <Button fx:id="addCourseButton" onAction="#createCourse" text="Add Course" />
+        <HBox prefHeight = "100.0" prefWidth = "15"> </HBox>
         <Button fx:id="myReviewsButtons" onAction="#moveToNextScreen"> My Reviews </Button>
     </HBox>
 

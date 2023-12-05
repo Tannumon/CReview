@@ -69,8 +69,8 @@ public class LoginScreenController {
                     var controller = (CourseSearchSceneController)loader.getController();
                     controller.setStage(stage);
                     stage.setScene(scene);
-                    stage.setX(20.0);
-                    stage.setY(20.0);
+                    stage.setX(50.0);
+                    stage.setY(50.0);
                     controller.setUsername(username);
                     //Parent secondPage = loader.load();
                     //Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
@@ -103,6 +103,7 @@ public class LoginScreenController {
                 driver.disconnect();
             }
             else{
+                password = password.trim();
                 if(password.length() < 8){
                     passwordField.clear();
                     errorMessage.setText("Please enter a password that is 8 or more characters in length and try again.");

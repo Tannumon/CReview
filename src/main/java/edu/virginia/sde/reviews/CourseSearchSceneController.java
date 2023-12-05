@@ -133,9 +133,9 @@ public class CourseSearchSceneController {
         addClassNumberErrorMessage.setText("");
         addClassErrorMessage.setText("");
         int errs = 0;
-        String courseSubj = addSubject.getText();
-        String courseNum = addNumber.getText();
-        String courseTitle = addTitle.getText();
+        String courseSubj = addSubject.getText().trim();
+        String courseNum = addNumber.getText().trim();
+        String courseTitle = addTitle.getText().trim();
         try {
             driver.connect();
             if ((courseTitle.isEmpty()) || (courseSubj.isEmpty()) || (courseNum.isEmpty())) {
