@@ -106,6 +106,7 @@ public class CourseSearchSceneController {
             courseTable.setItems(data);
             driver.commit();
             driver.disconnect();
+            driver.disconnect();
 
             /*ColumnConstraints col1Constraints = new ColumnConstraints();
             col1Constraints.setHgrow(Priority.ALWAYS);
@@ -309,7 +310,6 @@ public class CourseSearchSceneController {
             controller.setUsername(username);
             controller.populateTable();
             controller.setStage(stage);
-            System.out.println("search controller: " + username);
             stage.setScene(scene);
             stage.show();
         } catch (IOException e){

@@ -95,7 +95,6 @@ public class CourseReviewsSceneController {
     private void populateFields(TableRow<courseReview> row) {
         myReview.setText(row.getItem().getComment());
         int rating = row.getItem().getScore();
-        System.out.println(rating);
         switch (rating) {
             case 1: radio1.setSelected(true);
             break;
@@ -150,9 +149,6 @@ public class CourseReviewsSceneController {
             String time = timestamp.toString();
             time = time.substring(0, time.length()-7);
             Review rev = new Review(rating, time, comment, courseID, userID);
-            System.out.println(course.getSubjectMnemonic() + course.getCourseTitle());
-            System.out.println("" + courseID);
-            System.out.println("" + userID);
             driver.deleteReviewIfPresent(course, userID);
             driver.addReview(rev, username, course);
             driver.commit();
@@ -160,7 +156,7 @@ public class CourseReviewsSceneController {
             driver.disconnect();
             errorText.setText("");
         } catch (SQLException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             errorText.setText("Something went wrong! Please try again!");
         }
     }
@@ -214,9 +210,6 @@ public class CourseReviewsSceneController {
     private void updateReviewsDatabase() throws SQLException {
         try {
             ArrayList<Review> allCourseReviews = driver.getCourseReviews(course);
-            for (Review r: allCourseReviews) {
-                System.out.println(r.getComment());
-            }
             reviewsData.clear();
             for (Review r: allCourseReviews) {
                 reviewsData.add(new courseReview(r.getRating(), r.getComment(), r.getTimestamp().toString()));

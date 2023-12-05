@@ -78,8 +78,6 @@ public class MyReviewsController {
         try {
             driver.connect();
             ArrayList<Review> allReviews = driver.getUserReviews(username);
-            System.out.println(username);
-            System.out.println(allReviews.size());
             for(Review review: allReviews) {
                 data.add(review);
             }
