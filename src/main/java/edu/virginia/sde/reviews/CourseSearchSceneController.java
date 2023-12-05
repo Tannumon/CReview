@@ -97,6 +97,12 @@ public class CourseSearchSceneController {
             for(Course course: courses) {
                 data.add(course);
             }
+
+            courseMnem.prefWidthProperty().bind(courseTable.widthProperty().multiply(5.0/40.0));
+            courseInt.prefWidthProperty().bind(courseTable.widthProperty().multiply(5.0/40.0));
+            courseTit.prefWidthProperty().bind(courseTable.widthProperty().multiply(24.85/40.0));
+            courseAvgRat.prefWidthProperty().bind(courseTable.widthProperty().multiply(5.0/40.0));
+
             courseTable.setItems(data);
             driver.commit();
             driver.disconnect();
