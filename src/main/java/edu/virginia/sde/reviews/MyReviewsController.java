@@ -51,6 +51,12 @@ public class MyReviewsController {
         reviewComment.setCellValueFactory(new PropertyValueFactory<>("comment"));
         reviewTime.setCellValueFactory(new PropertyValueFactory<>("timestamp"));
 
+        reviewCourseMnem.prefWidthProperty().bind(myReviewsTable.widthProperty().multiply(5.0/40.0));
+        reviewCourseNum.prefWidthProperty().bind(myReviewsTable.widthProperty().multiply(5.0/40.0));
+        reviewRating.prefWidthProperty().bind(myReviewsTable.widthProperty().multiply(5/40.0));
+        reviewComment.prefWidthProperty().bind(myReviewsTable.widthProperty().multiply(15/40.0));
+        reviewTime.prefWidthProperty().bind(myReviewsTable.widthProperty().multiply(9.7/40.0));
+
         // Add columns to the TableView
         myReviewsTable.getColumns().add(reviewCourseMnem);
         myReviewsTable.getColumns().add(reviewCourseNum);

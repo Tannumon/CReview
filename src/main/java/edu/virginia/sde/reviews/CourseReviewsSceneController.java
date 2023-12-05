@@ -74,6 +74,11 @@ public class CourseReviewsSceneController {
             score.setCellValueFactory(new PropertyValueFactory<>("score"));
             comment.setCellValueFactory(new PropertyValueFactory<>("comment"));
             date.setCellValueFactory(new PropertyValueFactory<>("date"));
+
+            score.prefWidthProperty().bind(courseTable.widthProperty().multiply(3.0/20.0));
+            comment.prefWidthProperty().bind(courseTable.widthProperty().multiply(10.0/20.0));
+            date.prefWidthProperty().bind(courseTable.widthProperty().multiply(6.9/20.0));
+
             // actually adding the created columns to the same tableView that is connected to the FXML
             courseTable.getColumns().add(score);
             courseTable.getColumns().add(comment);
@@ -142,7 +147,9 @@ public class CourseReviewsSceneController {
             //String username = UserSingleton.getInstance().getUser().getUsername();
             int userID = driver.getUserIDbyUsername(username);
             int courseID = driver.getCourseID(course);
-            Review rev = new Review(rating, timestamp.toString(), comment, courseID, userID);
+            String time = timestamp.toString();
+            time = time.substring(0, time.length()-7);
+            Review rev = new Review(rating, time, comment, courseID, userID);
             System.out.println(course.getSubjectMnemonic() + course.getCourseTitle());
             System.out.println("" + courseID);
             System.out.println("" + userID);
