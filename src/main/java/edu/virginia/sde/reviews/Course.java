@@ -34,9 +34,22 @@ public class Course {
         return averageReviewRating;
     }
 
-    public String getAverageReviewRatingString() {
-        String formattedString = String.format("%.2f", averageReviewRating);
-        return formattedString;
+    public String getAverageReviewRatingString() throws SQLException {
+        try{
+            driver.connect();
+            double avgRating = driver.getCourseAverageRating(this);
+            driver.disconnect();
+            if(avgRating == 0.0)
+                return "";
+            else{
+                String formattedString = String.format("%.2f", avgRating);
+                return formattedString;
+            }
+        }
+        catch(SQLException e){
+
+        }
+        return "";
     }
 
 
