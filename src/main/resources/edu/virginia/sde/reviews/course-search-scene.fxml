@@ -11,7 +11,8 @@
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="edu.virginia.sde.reviews.CourseSearchSceneController"
-            prefHeight="700.0" prefWidth="600.0">
+            prefHeight="700.0" prefWidth="600.0"
+            style="-fx-background-color: #ebdefc;">
 
     <VBox>
         <HBox>
@@ -47,7 +48,7 @@
 
         <!-- TableView, testing with the username and password and not with the courses which is what it should be-->
         <VBox layoutX = "10" layoutY ="80" alignment="CENTER">
-            <TableView fx:id="courseTable" layoutX="0" layoutY="0" prefHeight="300.0" prefWidth="800" ></TableView>
+            <TableView style="-fx-background-color: #ffffff;" fx:id="courseTable" layoutX="0" layoutY="0" prefHeight="300.0" prefWidth="800"></TableView>
         </VBox>
 
         <!-- Adding a course-->
