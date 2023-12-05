@@ -62,7 +62,7 @@ public class CourseSearchSceneController {
             TableColumn<Course, String> courseMnem = new TableColumn<>("Subject");
             TableColumn<Course, Integer> courseInt = new TableColumn<>("Number");
             TableColumn<Course, String> courseTit = new TableColumn<>("Title");
-            TableColumn<Course, Double> courseAvgRat = new TableColumn<>("Average Rating");
+            TableColumn<Course, String> courseAvgRat = new TableColumn<>("Average Rating");
 
             courseTable.setRowFactory(tv -> {
                 TableRow<Course> row = new TableRow<>();
