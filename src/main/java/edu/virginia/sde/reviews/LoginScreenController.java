@@ -12,6 +12,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent; // Correct import for ActionEvent
+
+import java.awt.*;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -38,6 +40,7 @@ public class LoginScreenController {
         String theUser = usernameField.getText();
         return theUser;
     }
+
 
     public void setStage(Stage stage) {
         this.stage = stage;
