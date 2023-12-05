@@ -6,6 +6,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="edu.virginia.sde.reviews.CourseReviewsSceneController"
@@ -58,7 +60,14 @@
                     <Button text = "Delete" onAction = "#deleteReview"/>
                 </VBox>
             </HBox>
-            <Button text = "Back" onAction="#goToCourseReviewPage"/>
+            <Button onAction="#goToCourseReviewPage"  style="-fx-background-color: #b6d9f0; -fx-text-fill: black; -fx-border-color: black; -fx-border-width: 0.5;">
+
+                <graphic>
+                <ImageView fitHeight="32" fitWidth="32">
+                    <Image url="@BackButton.png" />
+                </ImageView>
+                </graphic>
+            </Button>
             <Label layoutX = "600" layoutY ="550"  fx:id="errorText"/>
         </children>
     </VBox>
