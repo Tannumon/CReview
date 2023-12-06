@@ -2,9 +2,9 @@
 # Homework 6 - Responding to Change
 
 ## Authors
-1) Name, netid, [GitHub profile name]
+1) Bhavya Boddu, kvz9mm, Bhavya-Boddu
 2) Name, netid, [GitHub profile name]
-3) Pravallika, qkm3zr, kullampallep
+3) Pravallika Kullampalle, qkm3zr, kullampallep
 4) Tanush Siotia, ebh2cd, Tannumon
 
 ## To Run
@@ -15,11 +15,10 @@
 
 List the primary contributions of each author. It is recommended to update this with your contributions after each coding session.:
 
-### [Author 1 - replace this with their name]
+### Bhavya Boddu
 
-* Author 1 contributions
-* as a bulleted list
-* each line starts with an asterisk and a space
+* Course Reviews Scene
+* Design
 
 ### [Author 2 - replace this with their name]
 
