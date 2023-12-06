@@ -5,7 +5,7 @@
 1) Name, netid, [GitHub profile name]
 2) Name, netid, [GitHub profile name]
 3) Name, netid, [GitHub profile name]
-4) Name, netid, [GitHub profile name]
+4) Tanush Siotia, ebh2cd, Tannumon
 
 ## To Run
 
@@ -33,11 +33,10 @@ List the primary contributions of each author. It is recommended to update this 
 * as a bulleted list
 * each line starts with an asterisk and a space
 
-### [Author 4 - replace this with their name]
+### Tanush Siotia
 
-* Author 4 contributions
-* as a bulleted list
-* each line starts with an asterisk and a space
+* Course Search Scene
+* Some of the fxml
 
 ## Issues
 
