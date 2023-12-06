@@ -129,7 +129,7 @@ public class CourseSearchSceneController {
 
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 

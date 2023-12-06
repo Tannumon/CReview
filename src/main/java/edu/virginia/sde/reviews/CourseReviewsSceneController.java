@@ -87,7 +87,7 @@ public class CourseReviewsSceneController {
             // create empty reviewsData observable list with datarows in the tableView
             reviewsData = FXCollections.observableArrayList();
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             errorText.setText("Something went wrong! Please try again!");
         }
     }
@@ -247,7 +247,7 @@ public class CourseReviewsSceneController {
             stage.setScene(scene);
             stage.show();
         } catch (IOException e){
-            e.printStackTrace();
+            //e.printStackTrace();
             errorText.setText("Something went wrong! Please try again!");
         }
     }
