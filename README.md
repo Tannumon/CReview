@@ -3,13 +3,13 @@
 
 ## Authors
 1) Bhavya Boddu, kvz9mm, Bhavya-Boddu
-2) Name, netid, [GitHub profile name]
+2) Anjali Pagidi, mdp3ka, anjalipag
 3) Pravallika Kullampalle, qkm3zr, kullampallep
 4) Tanush Siotia, ebh2cd, Tannumon
 
 ## To Run
-
-[Add a brief description of which .java file to run, and what vm arguments are needed]
+Run CourseReviewsApplication.java and add the following command into vm arguments in the run configuration for that file:
+--module-path [PATH_TO_JAVAFX_LIB_FOLDER] --add-modules javafx.controls,javafx.fxml
 
 ## Contributions
 
@@ -20,11 +20,10 @@ List the primary contributions of each author. It is recommended to update this 
 * Course Reviews Scene
 * Design
 
-### [Author 2 - replace this with their name]
+### Anjali Pagigi
 
-* Author 2 contributions
-* as a bulleted list
-* each line starts with an asterisk and a space
+* Database design/methods
+* Login
 
 ### Pravallika Kullampalle
 
