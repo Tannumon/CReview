@@ -7,23 +7,37 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="edu.virginia.sde.reviews.MyReviewsController"
-            prefHeight="400.0" prefWidth="800.0">
+            prefHeight="400.0" prefWidth="800.0"
+            style="-fx-background-color: #ebdefc;">
 
-    <VBox layoutX = "150" layoutY ="0" prefHeight = "100.0" prefWidth = "450.0" alignment = "CENTER">
+
+    <HBox spacing="30" alignment="CENTER_RIGHT" >
+        <children>
+            <Button onAction="#goBack"  style="-fx-background-color: #b6d9f0; -fx-text-fill: black; -fx-border-color: black; -fx-border-width: 0.5;">
+                <graphic>
+                    <ImageView fitHeight="32" fitWidth="32">
+                        <Image url="@BackButton.png" />
+                    </ImageView>
+                </graphic>
+            </Button>
+        </children>
+    </HBox>
+
+
+    <VBox layoutX = "100" layoutY ="10" prefHeight = "500.0" prefWidth = "600.0" alignment = "TOP_CENTER">
         <Text text= "My Reviews" style="-fx-font-size: 16;"/>
+        <VBox prefHeight = "10.0" prefWidth = "10.0"></VBox>
 
         <children>
-            <TableView fx:id="myReviewsTable" layoutX="0.0" layoutY="0.0" prefHeight="300.0" prefWidth="450.0" >
+            <TableView fx:id="myReviewsTable" layoutX="0.0" layoutY="20" prefHeight="400.0" prefWidth="900.0" >
             </TableView>
         </children>
 
     </VBox>
-
-
-
-
 
 </AnchorPane>

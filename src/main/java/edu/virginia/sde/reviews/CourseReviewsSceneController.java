@@ -74,6 +74,11 @@ public class CourseReviewsSceneController {
             score.setCellValueFactory(new PropertyValueFactory<>("score"));
             comment.setCellValueFactory(new PropertyValueFactory<>("comment"));
             date.setCellValueFactory(new PropertyValueFactory<>("date"));
+
+            score.prefWidthProperty().bind(courseTable.widthProperty().multiply(3.0/20.0));
+            comment.prefWidthProperty().bind(courseTable.widthProperty().multiply(10.0/20.0));
+            date.prefWidthProperty().bind(courseTable.widthProperty().multiply(6.9/20.0));
+
             // actually adding the created columns to the same tableView that is connected to the FXML
             courseTable.getColumns().add(score);
             courseTable.getColumns().add(comment);
@@ -82,7 +87,7 @@ public class CourseReviewsSceneController {
             // create empty reviewsData observable list with datarows in the tableView
             reviewsData = FXCollections.observableArrayList();
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             errorText.setText("Something went wrong! Please try again!");
         }
     }
@@ -92,10 +97,15 @@ public class CourseReviewsSceneController {
         int rating = row.getItem().getScore();
         switch (rating) {
             case 1: radio1.setSelected(true);
+            break;
             case 2: radio2.setSelected(true);
+            break;
             case 3: radio3.setSelected(true);
+            break;
             case 4: radio4.setSelected(true);
+            break;
             case 5: radio5.setSelected(true);
+            break;
         }
     }
 
@@ -135,51 +145,96 @@ public class CourseReviewsSceneController {
             driver.connect();
             //String username = UserSingleton.getInstance().getUser().getUsername();
             int userID = driver.getUserIDbyUsername(username);
-            Review rev = new Review(rating, timestamp.toString(), comment, course.getCourseNumber(), userID);
+            int courseID = driver.getCourseID(course);
+            String time = timestamp.toString();
+            time = time.substring(0, time.length()-7);
+            Review rev = new Review(rating, time, comment, courseID, userID);
             driver.deleteReviewIfPresent(course, userID);
             driver.addReview(rev, username, course);
             driver.commit();
             updateMyCourseReviewsPage();
             driver.disconnect();
+            errorText.setText("");
         } catch (SQLException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             errorText.setText("Something went wrong! Please try again!");
         }
     }
     @FXML
     private void deleteReview() throws SQLException {
-        driver.connect();
-        int userID = driver.getUserIDbyUsername(username);
-        driver.deleteReviewIfPresent(course,userID);
-        updateReviewsDatabase();
-        driver.commit();
-        driver.disconnect();
+        try {
+            driver.connect();
+            int userID = driver.getUserIDbyUsername(username);
+            driver.deleteReviewIfPresent(course,userID);
+            updateReviewsDatabase();
+            if(driver.getCourseReviews(course).size() == 0){
+                //driver.updateAverageCourseRating(course);
+                driver.resetCourseAverageRating(course);
+                averageRating.setText("Average Rating: ");
+            }
+
+            else{
+                driver.updateAverageCourseRating(course);
+                updateMyCourseReviewsPage();
+            }
+            radio1.setSelected(false);
+            radio2.setSelected(false);
+            radio3.setSelected(false);
+            radio4.setSelected(false);
+            radio5.setSelected(false);
+            myReview.setText("");
+            driver.commit();
+            driver.disconnect();
+        }
+        catch (SQLException e) {
+
+        }
     }
 
     private void updateMyCourseReviewsPage() throws SQLException {
-        updateReviewsDatabase();
-        averageRating.setText(""+course.getAverageReviewRating());
+        try{
+            //driver.connect();
+            updateReviewsDatabase();
+            String formattedString = String.format("%.2f", driver.getCourseAverageRating(course));
+            if(driver.getCourseReviews(course).size() == 0)
+                averageRating.setText("Average Rating: ");
+            else
+                averageRating.setText("Average Rating: " + formattedString);
+        }
+        catch(SQLException e){
+
+        }
+
     }
 
     private void updateReviewsDatabase() throws SQLException {
-        ArrayList<Review> allCourseReviews = driver.getCourseReviews(course);
-        for (Review r: allCourseReviews) {
-            System.out.println(r.getComment());
+        try {
+            ArrayList<Review> allCourseReviews = driver.getCourseReviews(course);
+            reviewsData.clear();
+            for (Review r: allCourseReviews) {
+                reviewsData.add(new courseReview(r.getRating(), r.getComment(), r.getTimestamp().toString()));
+            }
+            courseTable.setItems(reviewsData);
         }
-        reviewsData.clear();
-        for (Review r: allCourseReviews) {
-            reviewsData.add(new courseReview(r.getRating(), r.getComment(), r.getTimestamp().toString()));
+        catch (SQLException e){
+
         }
-        courseTable.setItems(reviewsData);
     }
 
     public void setCourse(Course course) throws SQLException {
-        this.course = course;
-        courseDetails.setText(course.getSubjectMnemonic() + " " + course.getCourseNumber() + ": " + course.getCourseTitle());
-        averageRating.setText("Average Rating: " + course.getAverageReviewRating());
-        driver.connect();
-        updateMyCourseReviewsPage();
-        driver.disconnect();
+        try{
+            driver.connect();
+            this.course = course;
+            courseDetails.setText(course.getSubjectMnemonic() + " " + course.getCourseNumber() + ": " + course.getCourseTitle());
+            if(driver.getCourseReviews(course).size() == 0)
+                averageRating.setText("Average Rating: ");
+            else
+                averageRating.setText("Average Rating: " + driver.getCourseAverageRating(course));
+            updateMyCourseReviewsPage();
+            driver.disconnect();
+        }
+        catch(SQLException e){
+        }
     }
     @FXML
     public void goToCourseReviewPage() {
@@ -192,7 +247,7 @@ public class CourseReviewsSceneController {
             stage.setScene(scene);
             stage.show();
         } catch (IOException e){
-            e.printStackTrace();
+            //e.printStackTrace();
             errorText.setText("Something went wrong! Please try again!");
         }
     }

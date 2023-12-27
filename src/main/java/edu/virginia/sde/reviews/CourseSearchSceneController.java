@@ -12,6 +12,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -62,7 +66,7 @@ public class CourseSearchSceneController {
             TableColumn<Course, String> courseMnem = new TableColumn<>("Subject");
             TableColumn<Course, Integer> courseInt = new TableColumn<>("Number");
             TableColumn<Course, String> courseTit = new TableColumn<>("Title");
-            TableColumn<Course, Double> courseAvgRat = new TableColumn<>("Average Rating");
+            TableColumn<Course, String> courseAvgRat = new TableColumn<>("Average Rating");
 
             courseTable.setRowFactory(tv -> {
                 TableRow<Course> row = new TableRow<>();
@@ -79,7 +83,7 @@ public class CourseSearchSceneController {
             courseMnem.setCellValueFactory(new PropertyValueFactory<>("subjectMnemonic"));
             courseInt.setCellValueFactory(new PropertyValueFactory<>("courseNumber"));
             courseTit.setCellValueFactory(new PropertyValueFactory<>("courseTitle"));
-            courseAvgRat.setCellValueFactory(new PropertyValueFactory<>("averageReviewRating"));
+            courseAvgRat.setCellValueFactory(new PropertyValueFactory<>("averageReviewRatingString"));
 
             // Add columns to the TableView
             courseTable.getColumns().add(courseMnem);
@@ -93,12 +97,39 @@ public class CourseSearchSceneController {
             for(Course course: courses) {
                 data.add(course);
             }
+
+            courseMnem.prefWidthProperty().bind(courseTable.widthProperty().multiply(5.0/40.0));
+            courseInt.prefWidthProperty().bind(courseTable.widthProperty().multiply(5.0/40.0));
+            courseTit.prefWidthProperty().bind(courseTable.widthProperty().multiply(24.85/40.0));
+            courseAvgRat.prefWidthProperty().bind(courseTable.widthProperty().multiply(5.0/40.0));
+
             courseTable.setItems(data);
             driver.commit();
             driver.disconnect();
+            driver.disconnect();
+
+            /*ColumnConstraints col1Constraints = new ColumnConstraints();
+            col1Constraints.setHgrow(Priority.ALWAYS);
+
+            ColumnConstraints col2Constraints = new ColumnConstraints();
+            col2Constraints.setHgrow(Priority.ALWAYS);
+
+            ColumnConstraints col3Constraints = new ColumnConstraints();
+            col3Constraints.setHgrow(Priority.ALWAYS);
+
+            ColumnConstraints col4Constraints = new ColumnConstraints();
+            col4Constraints.setHgrow(Priority.ALWAYS);
+
+            // Create a GridPane and add the ColumnConstraints
+            GridPane gridPane = new GridPane();
+            gridPane.getColumnConstraints().addAll(col1Constraints, col2Constraints, col3Constraints, col4Constraints);
+
+            // Create a VBox to hold the TableView and GridPane
+            VBox vBox = new VBox(courseTable, gridPane);*/
+
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 
@@ -133,9 +164,9 @@ public class CourseSearchSceneController {
         addClassNumberErrorMessage.setText("");
         addClassErrorMessage.setText("");
         int errs = 0;
-        String courseSubj = addSubject.getText();
-        String courseNum = addNumber.getText();
-        String courseTitle = addTitle.getText();
+        String courseSubj = addSubject.getText().trim();
+        String courseNum = addNumber.getText().trim();
+        String courseTitle = addTitle.getText().trim();
         try {
             driver.connect();
             if ((courseTitle.isEmpty()) || (courseSubj.isEmpty()) || (courseNum.isEmpty())) {
@@ -255,22 +286,24 @@ public class CourseSearchSceneController {
             }
             driver.disconnect();
         } catch (SQLException ex) {
-        throw new RuntimeException(ex);
+            throw new RuntimeException(ex);
         }
     }
 
     @FXML
-    private void moveToNextScreen(ActionEvent event) throws IOException {
+    private void moveToNextScreen(ActionEvent event) throws IOException, SQLException {
         try {
-            driver.connect();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("course-reviews-scene.fxml"));
-            Parent thirdPage = loader.load();
-            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(thirdPage));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("my-reviews.fxml"));
+            var scene = new Scene(loader.load());
+            var controller = (MyReviewsController)loader.getController();
+            controller.setUsername(username);
+            controller.populateTable();
+            controller.setStage(stage);
+            stage.setScene(scene);
             stage.show();
-            driver.disconnect();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        } catch (IOException e){
+            //e.printStackTrace();
+            //errorText.setText("Something went wrong! Please try again!");
         }
     }
     public void setStage(Stage stage) {
@@ -282,7 +315,7 @@ public class CourseSearchSceneController {
     }
     private void goToCourseReviewPage(TableRow<Course> row) throws SQLException {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("my-reviews.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("course-reviews-scene.fxml"));
             var scene = new Scene(loader.load());
             var controller = (CourseReviewsSceneController)loader.getController();
             controller.setStage(stage);
@@ -291,9 +324,23 @@ public class CourseSearchSceneController {
             stage.setScene(scene);
             stage.show();
         } catch (IOException e){
-            throw new RuntimeException(e);
+            //throw new RuntimeException(e);
         }
     }
 
 
+    public void logout(ActionEvent actionEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("login-screen.fxml"));
+            var scene = new Scene(loader.load());
+            var controller = (LoginScreenController)loader.getController();
+            controller.setStage(stage);
+            controller.setUsername("");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e){
+            //e.printStackTrace();
+            //errorText.setText("Something went wrong! Please try again!");
+        }
+    }
 }

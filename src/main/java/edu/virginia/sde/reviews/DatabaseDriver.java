@@ -65,7 +65,7 @@ public class DatabaseDriver {
                     Rating                                           INTEGER   not null,
                     Timestamp                                        TEXT      not null,
                     Comment                                          TEXT      not null,
-                    UserID                                           TEXT      not null,
+                    UserID                                           INTEGER   not null,
                     CourseID                                         INTEGER   not null,
                     FOREIGN KEY (UserID) references Users(ID)        on delete cascade,
                     FOREIGN KEY (CourseID) references Courses(ID)    on delete cascade
@@ -153,6 +153,40 @@ public class DatabaseDriver {
         }
     }
 
+    public void resetCourseAverageRating(Course course) throws SQLException {
+        try{
+            String resetAvgRating = "update Courses set AverageRating = 0.0 where SubjectMnemonic LIKE '"+course.getSubjectMnemonic()+"' " +
+                    "AND CourseTitle LIKE '"+course.getCourseTitle()+"' " +
+                    "AND CourseNumber = " + course.getCourseNumber() + ";";
+            PreparedStatement preparedStatement = connection.prepareStatement(resetAvgRating);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        }
+        catch (SQLException e){
+            rollback();
+            throw e;
+        }
+    }
+
+    public double getCourseAverageRating(Course course) throws SQLException {
+        try{
+            String getAverageRating = "select * from Courses where SubjectMnemonic LIKE '"+course.getSubjectMnemonic()+"' " +
+                    "AND CourseTitle LIKE '"+course.getCourseTitle()+"' " +
+                    "AND CourseNumber = " + course.getCourseNumber() + ";";
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(getAverageRating);
+            if(rs.next() == false)
+                return -1.0;
+            double courseRating = rs.getDouble("AverageRating");
+            return courseRating;
+        }
+        catch (SQLException e){
+            rollback();
+            throw e;
+        }
+    }
+
+
     public void addReview(Review review, String username, Course course) throws SQLException {
         try{
             String insert = """
@@ -212,12 +246,13 @@ public class DatabaseDriver {
     public void updateAverageCourseRating(Course course) throws SQLException {
         try{
             ArrayList<Review> courseReviews = getCourseReviews(course);
-            double averageRating = 0;
+            double averageRating = 0.0;
             for(Review review: courseReviews){
                 averageRating += review.getRating();
             }
-            averageRating /= courseReviews.size();
+            averageRating /= courseReviews.size()*1.0;
             int courseID = getCourseID(course);
+
             String update = "UPDATE Courses SET AverageRating = " + averageRating + " WHERE ID = " +  courseID + ";";
             PreparedStatement preparedStatement = connection.prepareStatement(update);
             preparedStatement.executeUpdate();
@@ -240,7 +275,7 @@ public class DatabaseDriver {
             String subj = course.getSubjectMnemonic();
             int courseNum = course.getCourseNumber();
             String title = course.getCourseTitle();
-            double rating = course.getAverageReviewRating();
+            double rating = 0.0;
             insert += "(\"" + subj + "\", " + courseNum + ", \"" + title + "\", " + rating + ");";
             PreparedStatement preparedStatement = connection.prepareStatement(insert);
             preparedStatement.executeUpdate();
@@ -351,6 +386,7 @@ public class DatabaseDriver {
     public ArrayList<Course> getCourseByTitle(String title) throws SQLException {
         try{
             String getCoursesUnderTitle = "select * from Courses WHERE SubjectMnemonic LIKE '"+title+"';";
+            String getCourseUnderTitle = "select * from Courses WHERE SubjectMnemonic LIKE '"+title+"';";
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery(getCoursesUnderTitle);
 
@@ -388,6 +424,63 @@ public class DatabaseDriver {
                 courses.add(c);
             }
             return courses;
+        }
+        catch (SQLException e){
+            rollback();
+            throw e;
+        }
+    }
+
+    public Course getCourseFromID(int courseID) throws SQLException {
+        try{
+            String getCourse = "select * from Courses WHERE ID = " + courseID + ";";
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(getCourse);
+
+            if(rs.next() == false)
+                return null;
+            int courseNum = rs.getInt("CourseNumber");
+            String subj = rs.getString("SubjectMnemonic");
+            double rating = rs.getDouble("AverageRating");
+            String title = rs.getString("CourseTitle");
+            Course c = new Course(subj, courseNum, title, rating);
+
+            return c;
+        }
+        catch (SQLException e){
+            rollback();
+            throw e;
+        }
+    }
+
+    public void deleteReviewIfPresent(Course course, int userID) throws SQLException {
+        try{
+            int courseID = getCourseID(course);
+            if (hasReviewCourseUser(course, userID)) {
+                String deleteReview = "delete from Reviews where UserID = " + userID +
+                        " AND CourseID = " + courseID + ";";
+                PreparedStatement preparedStatement = connection.prepareStatement(deleteReview);
+                preparedStatement.executeUpdate();
+                preparedStatement.close();
+            }
+        }
+        catch (SQLException e){
+            rollback();
+            throw e;
+        }
+    }
+    public boolean hasReviewCourseUser(Course course, int userID) throws SQLException {
+        try{
+            int courseID = getCourseID(course);
+            String getReview = "select * from Reviews where UserID = " + userID +
+                    " AND CourseID = " + courseID + ";";
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(getReview);
+            if(rs.next() == false)
+                return false;
+            else {
+                return true;
+            }
         }
         catch (SQLException e){
             rollback();

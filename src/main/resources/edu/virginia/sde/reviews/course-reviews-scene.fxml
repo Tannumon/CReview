@@ -6,11 +6,14 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="edu.virginia.sde.reviews.CourseReviewsSceneController"
-            prefHeight="700.0" prefWidth="600.0">
-    <VBox layoutX = "0" layoutY ="0" prefHeight = "300.0" prefWidth = "300.0" alignment = "CENTER">
+            prefHeight="700.0" prefWidth="600.0"
+            style="-fx-background-color: #ebdefc;">
+    <VBox layoutX = "0" layoutY ="0" prefHeight = "300.0" prefWidth = "600.0" alignment = "CENTER">
         <children>
             <Label fx:id="courseDetails"/>
             <Label fx:id="averageRating"/>
@@ -18,34 +21,36 @@
             <TableView fx:id="courseTable" layoutX="0.0" layoutY="0.0" prefHeight="500.0" prefWidth="450.0"></TableView>
             <Label text= "Your Review"/>
             <HBox layoutX = "0" layoutY ="0" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
-                <HBox layoutX = "0" layoutY ="0" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
+                <VBox layoutX = "0" layoutY ="0" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
                     <Label text= "Rating Required"/>
-                    <VBox layoutX = "0" layoutY ="0" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
-                        <Label text="Worst"/>
-                        <Label text="1"/>
-                        <RadioButton fx:id="radio1"/>
-                    </VBox>
-                    <VBox layoutX = "0" layoutY ="0" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
-                        <Label/>
-                        <Label text="2"/>
-                        <RadioButton fx:id="radio2"/>
-                    </VBox>
-                    <VBox layoutX = "0" layoutY ="0" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
-                        <Label/>
-                        <Label text="3"/>
-                        <RadioButton fx:id="radio3"/>
-                    </VBox>
-                    <VBox layoutX = "0" layoutY ="0" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
-                        <Label/>
-                        <Label text="4"/>
-                        <RadioButton fx:id="radio4"/>
-                    </VBox>
-                    <VBox layoutX = "0" layoutY ="0" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
-                        <Label text="Best"/>
-                        <Label text="5"/>
-                        <RadioButton fx:id="radio5"/>
-                    </VBox>
-                </HBox>
+                    <HBox layoutX = "0" layoutY ="0" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
+                        <VBox layoutX = "0" layoutY ="0" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
+                            <Label text="Worst"/>
+                            <Label text="1"/>
+                            <RadioButton fx:id="radio1"/>
+                        </VBox>
+                        <VBox layoutX = "0" layoutY ="0" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
+                            <Label/>
+                            <Label text="2"/>
+                            <RadioButton fx:id="radio2"/>
+                        </VBox>
+                        <VBox layoutX = "0" layoutY ="0" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
+                            <Label/>
+                            <Label text="3"/>
+                            <RadioButton fx:id="radio3"/>
+                        </VBox>
+                        <VBox layoutX = "0" layoutY ="0" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
+                            <Label/>
+                            <Label text="4"/>
+                            <RadioButton fx:id="radio4"/>
+                        </VBox>
+                        <VBox layoutX = "0" layoutY ="0" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
+                            <Label text="Best"/>
+                            <Label text="5"/>
+                            <RadioButton fx:id="radio5"/>
+                        </VBox>
+                    </HBox>
+                </VBox>
                 <VBox layoutX = "0" layoutY ="0" prefHeight = "100.0" prefWidth = "300.0" alignment = "CENTER">
                     <Label text= "Comment"/>
                     <TextArea fx:id="myReview" prefHeight = "100.0" prefWidth = "300.0"/>
@@ -55,7 +60,14 @@
                     <Button text = "Delete" onAction = "#deleteReview"/>
                 </VBox>
             </HBox>
-            <Button text = "Back" onAction="#goToCourseReviewPage"/>
+            <Button onAction="#goToCourseReviewPage"  style="-fx-background-color: #b6d9f0; -fx-text-fill: black; -fx-border-color: black; -fx-border-width: 0.5;">
+
+                <graphic>
+                <ImageView fitHeight="32" fitWidth="32">
+                    <Image url="@BackButton.png" />
+                </ImageView>
+                </graphic>
+            </Button>
             <Label layoutX = "600" layoutY ="550"  fx:id="errorText"/>
         </children>
     </VBox>
